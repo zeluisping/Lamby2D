@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lamby2D.Core;
 
 namespace Lamby2D.Input
 {
@@ -12,12 +13,14 @@ namespace Lamby2D.Input
     {
         // Properties
         public MouseButton Button { get; private set; }
+        public Point Position { get; private set; }
         public bool Handled { get; set; }
 
         // Constructors
-        public MouseButtonEventArgs(MouseButton button)
+        public MouseButtonEventArgs(MouseButton button, Point position)
         {
             this.Button = button;
+            this.Position = position;
         }
     }
 }

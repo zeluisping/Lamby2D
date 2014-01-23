@@ -21,7 +21,7 @@ namespace Lamby2D.Input
         event MouseButtonEventHandler Clicked;
 
         // Public
-        void OnClick(MouseButton button);
+        void OnClick(MouseButton button, Point position);
         bool ClickHitTest(Point position, MouseButton button);
     }
 }

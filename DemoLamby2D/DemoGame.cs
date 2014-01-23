@@ -21,7 +21,6 @@ namespace DemoLamby2D
         // Public
         public override void Update(float DeltaTime)
         {
-            this.Graphics.GraphicsContext.Window.Title = DeltaTime.ToString();
             image.Rotation += DeltaTime * 10;
         }
         public override void Draw()
@@ -41,7 +40,7 @@ namespace DemoLamby2D
         {
             this.Graphics.BackgroundColor = Colors.Orange;
 
-            texture = this.Graphics.CreateTexture("D:\\charanim.png");
+            texture = this.Graphics.CreateTexture("texture.png");
             image = new Image(texture) {
                 Center = new Vector2(0.5f),
                 Position = new Vector2(-0.5f),

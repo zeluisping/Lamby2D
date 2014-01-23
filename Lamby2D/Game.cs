@@ -27,7 +27,8 @@ namespace Lamby2D
             DateTime lasttick = DateTime.UtcNow;
 
             while (Graphics.GraphicsContext.Window != null) {
-                Graphics.GraphicsContext.Window.PollMessages();
+                this.Input.Update(); // resets deltas
+                this.Graphics.GraphicsContext.Window.PollMessages();
 
                 if (this.Graphics.GraphicsContext.Window == null) {
                     break;

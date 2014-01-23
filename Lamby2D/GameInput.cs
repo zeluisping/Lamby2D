@@ -56,6 +56,8 @@ namespace Lamby2D
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _mousestates[(int) e.Button] = true;
+            //_mousepos = e.Position;
+            //_mousedelta += _mousedelta - e.Position;
             if (this.MouseDown != null) {
                 this.MouseDown(this, e);
             }
@@ -63,7 +65,7 @@ namespace Lamby2D
             if (e.Handled == false) {
                 IClickable clicked = null;
                 foreach (IClickable clickable in _clickables) {
-                    if (clickable.IsHitTestVisible == true && clickable.ClickHitTest(_mousepos, e.Button) == true) {
+                    if (clickable.IsHitTestVisible == true && clickable.ClickHitTest(e.Position, e.Button) == true) {
                         clicked = (clicked == null
                                         ? clickable
                                         : clickable.ZIndex > clicked.ZIndex
@@ -73,7 +75,7 @@ namespace Lamby2D
                 }
 
                 if (clicked != null) {
-                    clicked.OnClick(e.Button);
+                    clicked.OnClick(e.Button, e.Position);
                 }
             }
         }
@@ -104,6 +106,12 @@ namespace Lamby2D
         public bool IsButtonDown(MouseButton button)
         {
             return _mousestates[(int) button];
+        }
+
+        // Internal
+        internal void Update()
+        {
+            _mousedelta = Point.Zero;
         }
 
         // Constructors

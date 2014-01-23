@@ -9,8 +9,9 @@ namespace Lamby2D.Core
     public struct Vector2
     {
         // Constants
-        public static readonly Vector2 Zero = new Vector2(0, 0);
-        public static readonly Vector2 One = new Vector2(1, 1);
+        public static readonly Vector2 Zero = new Vector2(0);
+        public static readonly Vector2 One = new Vector2(1);
+        public static readonly Vector2 NaN = new Vector2(float.NaN);
 
         // Static operators
         public static bool operator ==(Vector2 a, Vector2 b)

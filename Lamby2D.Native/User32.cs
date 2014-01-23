@@ -37,5 +37,10 @@ namespace Lamby2D.Native
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
         [DllImport("user32.dll")]
         public static extern bool SetWindowText(IntPtr hWnd, string lpString);
+        [DllImport("user32.dll")]
+        public static extern bool AdjustWindowRect(ref RECT lpREct, WindowStyles dwStyle, bool bMenu);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
     }
 }

@@ -113,6 +113,21 @@ namespace Lamby2D.Drawing
             Draw(drawable.Texture);
             OpenGL11.glPopMatrix();
         }
+        public Vector2 ScreenToWorld(Point screen)
+        {
+            return new Vector2((screen.X / (float) this.GraphicsContext.Width) * 2 - 1, (screen.Y / (float) this.GraphicsContext.Height) * 2 - 1);
+        }
+        public Point? WorldToScreen(Vector2 world)
+        {
+            if (world.X < 0 || world.X >= this.GraphicsContext.Width || world.Y < 0 || world.Y > this.GraphicsContext.Height) {
+                return null;
+            }
+            // world.x = (screen.X / this.GraphicsContext.Width) * 2 - 1
+            // world.x + 1 = (screen.X / this.GraphicsContext.Width) * 2
+            // (world.x + 1) / 2 = (screen.X / this.GraphicsContext.Width)
+            // ((world.X + 1) * this.GraphicsContext.Width) / 2 = screen.X
+            return new Point((int) (((world.X + 1) * this.GraphicsContext.Width) / 2), (int) (((world.Y + 1) * this.GraphicsContext.Height) / 2));
+        }
 
         // Constructors
         public Graphics()

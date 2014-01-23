@@ -120,5 +120,10 @@ namespace Lamby2D.Core
             _x = x;
             _y = y;
         }
+        public Point(Point p)
+        {
+            _x = p._x;
+            _y = p._y;
+        }
     }
 }

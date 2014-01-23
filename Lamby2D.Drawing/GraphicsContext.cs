@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Lamby2D.Native;
@@ -20,15 +21,15 @@ namespace Lamby2D.Drawing
         // Properties
         public int Width
         {
-            get { return 800; }
-            set { }
+            get { return _window.Width; }
+            set { _window.Width = value; }
         }
         public int Height
         {
-            get { return 600; }
-            set { }
-        }
-        public Window Window
+            get { return _window.Height; }
+            set { _window.Height = value; }
+        }        
+        internal Window Window
         {
             get { return (_windowclosed ? null : _window); }
         }
