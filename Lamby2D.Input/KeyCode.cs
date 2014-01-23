@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Lamby2D.Input
 {
     /// <summary>
-    /// Defines the keys on a keyboard.
+    /// Defines the virtual key codes.
     /// </summary>
-    public enum Key
+    public enum KeyCode
     {
         // Summary:
         //     The bitmask to extract modifiers from a key value.

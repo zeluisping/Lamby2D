@@ -22,21 +22,21 @@ namespace DemoLamby2D
         // Handlers
         private void DemoGame_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.A || e.Key == Key.D) {
+            if (e.Key == KeyCode.A || e.Key == KeyCode.D) {
                 direction.X = 0;
-            } else if (e.Key == Key.W || e.Key == Key.S) {
+            } else if (e.Key == KeyCode.W || e.Key == KeyCode.S) {
                 direction.Y = 0;
             }
         }
         private void DemoGame_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.A) {
+            if (e.Key == KeyCode.A) {
                 direction.X = -1;
-            } else if (e.Key == Key.D) {
+            } else if (e.Key == KeyCode.D) {
                 direction.X = 1;
-            } else if (e.Key == Key.W) {
+            } else if (e.Key == KeyCode.W) {
                 direction.Y = -1;
-            } else if (e.Key == Key.S) {
+            } else if (e.Key == KeyCode.S) {
                 direction.Y = 1;
             }
         }

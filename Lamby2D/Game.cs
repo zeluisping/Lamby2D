@@ -19,6 +19,7 @@ namespace Lamby2D
 
         // Properties
         public Graphics Graphics { get; private set; }
+        public GameInput Input { get; private set; }
 
         // Events
         public event KeyEventHandler KeyDown
@@ -118,6 +119,7 @@ namespace Lamby2D
             _staticdrawables = new List<IStaticDrawable>();
 
             this.Graphics = new Graphics();
+            this.Input = new GameInput();
         }
     }
 }

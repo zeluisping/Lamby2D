@@ -11,13 +11,13 @@ namespace Lamby2D.Input
     public class KeyEventArgs : EventArgs
     {
         // Properties
-        public Key Key { get; private set; }
+        public KeyCode Key { get; private set; }
         public bool Handled { get; set; }
 
         // Constructors
-        public KeyEventArgs(Key key)
+        public KeyEventArgs(KeyCode keycode)
         {
-            this.Key = key;
+            this.Key = keycode;
         }
     }
 }

@@ -39,9 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Key.cs" />
+    <Compile Include="KeyCode.cs" />
     <Compile Include="KeyEventArgs.cs" />
     <Compile Include="MouseButton.cs" />
+    <Compile Include="MouseButtonEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,20 +15,43 @@ namespace Lamby2D.Drawing
         // Static
         IntPtr WndProc(IntPtr hWnd, WindowMessages uMsg, IntPtr wParam, IntPtr lParam)
         {
-            if (uMsg == WindowMessages.CLOSE) {
+            if (uMsg == WindowMessages.SYSKEYDOWN) {
+                if (wParam.ToInt32() == (int) KeyCode.F10 || wParam.ToInt32() == (int) KeyCode.Menu) {
+                    if (this.KeyDown != null) {
+                        this.KeyDown(this, new KeyEventArgs((KeyCode) wParam));
+                    }
+                    return IntPtr.Zero;
+                }
+            } else if (uMsg == WindowMessages.CLOSE) {
                 if (this.Closing != null) {
                     this.Closing(this, EventArgs.Empty);
                 }
-                
+
                 User32.DestroyWindow(this.Handle);
             } else if (uMsg == WindowMessages.DESTROY) {
                 if (this.Closed != null) {
                     this.Closed(this, EventArgs.Empty);
                 }
             } else if (uMsg == WindowMessages.KEYDOWN && this.KeyDown != null) {
-                this.KeyDown(this, new KeyEventArgs((Key) wParam));
+                this.KeyDown(this, new KeyEventArgs((KeyCode) wParam));
             } else if (uMsg == WindowMessages.KEYUP && this.KeyUp != null) {
-                this.KeyUp(this, new KeyEventArgs((Key) wParam));
+                this.KeyUp(this, new KeyEventArgs((KeyCode) wParam));
+            } else if (this.MouseDown != null) {
+                if (uMsg == WindowMessages.LBUTTONDOWN) {
+                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Left));
+                } else if (uMsg == WindowMessages.RBUTTONDOWN) {
+                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Right));
+                } else if (uMsg == WindowMessages.MBUTTONDOWN) {
+                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Middle));
+                }
+            } else if (this.MouseUp != null) {
+                if (uMsg == WindowMessages.LBUTTONUP) {
+                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Left));
+                } else if (uMsg == WindowMessages.RBUTTONUP) {
+                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Right));
+                } else if (uMsg == WindowMessages.MBUTTONUP) {
+                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Middle));
+                }
             }
 
             return User32.DefWindowProcW(hWnd, uMsg, wParam, lParam);
@@ -71,6 +94,8 @@ namespace Lamby2D.Drawing
         public event EventHandler Closed;
         public event KeyEventHandler KeyDown;
         public event KeyEventHandler KeyUp;
+        public event MouseButtonEventHandler MouseDown;
+        public event MouseButtonEventHandler MouseUp;
 
         // Public
         public void Show()
@@ -128,7 +153,7 @@ namespace Lamby2D.Drawing
                 0,
                 typeof(Window).FullName,
                 this.Title,
-                WindowStyles.WS_OVERLAPPED | WindowStyles.WS_CAPTION | WindowStyles.WS_SYSMENU | WindowStyles.WS_MINIMIZEBOX | WindowStyles.WS_MAXIMIZEBOX,
+                WindowStyles.WS_OVERLAPPED | WindowStyles.WS_CAPTION | WindowStyles.WS_SYSMENU | WindowStyles.WS_MINIMIZEBOX,
                 CW_USEDEFAULT,
                 CW_USEDEFAULT,
                 this.Width,
