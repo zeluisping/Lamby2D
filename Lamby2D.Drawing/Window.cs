@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Lamby2D.Core;
 using Lamby2D.Input;
 using Lamby2D.Native;
 
@@ -52,6 +53,8 @@ namespace Lamby2D.Drawing
                 } else if (uMsg == WindowMessages.MBUTTONUP) {
                     this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Middle));
                 }
+            } else if (uMsg == WindowMessages.MOUSEMOVE && this.MouseMotion != null) {
+                this.MouseMotion(this, new MouseMotionEventArgs(new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
             }
 
             return User32.DefWindowProcW(hWnd, uMsg, wParam, lParam);
@@ -96,6 +99,7 @@ namespace Lamby2D.Drawing
         public event KeyEventHandler KeyUp;
         public event MouseButtonEventHandler MouseDown;
         public event MouseButtonEventHandler MouseUp;
+        public event MouseMotionEventHandler MouseMotion;
 
         // Public
         public void Show()
