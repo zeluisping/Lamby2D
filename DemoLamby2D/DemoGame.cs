@@ -17,6 +17,7 @@ namespace DemoLamby2D
         Texture2D texture;
         Image image;
         Vector2 direction;
+        ImageGameObject imagegameobject;
 
         // Handlers
         private void DemoGame_KeyUp(object sender, KeyEventArgs e)
@@ -46,12 +47,12 @@ namespace DemoLamby2D
             this.Graphics.GraphicsContext.Window.Title = DeltaTime.ToString();
             image.Rotation += DeltaTime * 10;
             image.Position += direction * DeltaTime * 0.5f;
+            imagegameobject.Rotation = image.Rotation; // use same rotation
         }
         public override void Draw()
         {
-            this.Graphics.Clear();
+            // image is not a GameObject, so it does not draw by itself
             this.Graphics.Draw(image);
-            this.Graphics.Flush();
         }
 
         // Protected
@@ -71,6 +72,12 @@ namespace DemoLamby2D
             image = new Image(texture) {
                 Center = new Vector2(0.5f),
                 Position = new Vector2(-0.5f),
+            };
+
+            imagegameobject = new ImageGameObject() {
+                Center = new Vector2(0.5f),
+                Position = new Vector2(+0.5f),
+                Texture = texture, // textures can be used by multiple drawables at the same time
             };
         }
     }

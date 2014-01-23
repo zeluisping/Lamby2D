@@ -7,15 +7,15 @@ using Lamby2D.Core;
 
 namespace Lamby2D.Drawing
 {
+    /// <summary>
+    /// Interface for game objects that are a static texture.
+    /// </summary>
     public interface IStaticDrawable
     {
-        // Properties
         Texture2D Texture { get; }
-        /// <summary>
-        /// Relative center of the drawable.
-        /// </summary>
+        Vector2 Position { get; }
         Vector2 Center { get; }
         float Rotation { get; }
-        Vector2 Position { get; }
+        bool IsVisible { get; }
     }
 }
