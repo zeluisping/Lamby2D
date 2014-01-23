@@ -88,7 +88,7 @@ namespace Lamby2D
         }
         private void Window_MouseMotion(object sender, MouseMotionEventArgs e)
         {
-            _mousedelta = _mousepos - e.Position;
+            _mousedelta += _mousepos - e.Position;
             _mousepos = e.Position;
             if (this.MouseMotion != null) {
                 this.MouseMotion(this, e);

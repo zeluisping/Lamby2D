@@ -39,6 +39,8 @@ namespace DemoLamby2D
         public DemoGame()
         {
             this.Graphics.BackgroundColor = Colors.Orange;
+            this.Graphics.GraphicsContext.Resize(400, 300);
+            this.Graphics.GraphicsContext.Title = "Demo Game";
 
             texture = this.Graphics.CreateTexture("texture.png");
             image = new Image(texture) {

@@ -13,54 +13,6 @@ namespace Lamby2D.Drawing
 {
     public class Window : IDisposable
     {
-        // Static
-        IntPtr WndProc(IntPtr hWnd, WindowMessages uMsg, IntPtr wParam, IntPtr lParam)
-        {
-            if (uMsg == WindowMessages.SYSKEYDOWN) {
-                if (wParam.ToInt32() == (int) KeyCode.F10 || wParam.ToInt32() == (int) KeyCode.Menu) {
-                    if (this.KeyDown != null) {
-                        this.KeyDown(this, new KeyEventArgs((KeyCode) wParam));
-                    }
-                    return IntPtr.Zero;
-                }
-            } else if (uMsg == WindowMessages.CLOSE) {
-                if (this.Closing != null) {
-                    this.Closing(this, EventArgs.Empty);
-                }
-
-                User32.DestroyWindow(this.Handle);
-            } else if (uMsg == WindowMessages.DESTROY) {
-                if (this.Closed != null) {
-                    this.Closed(this, EventArgs.Empty);
-                }
-            } else if (uMsg == WindowMessages.KEYDOWN && this.KeyDown != null) {
-                this.KeyDown(this, new KeyEventArgs((KeyCode) wParam));
-            } else if (uMsg == WindowMessages.KEYUP && this.KeyUp != null) {
-                this.KeyUp(this, new KeyEventArgs((KeyCode) wParam));
-            } else if (this.MouseDown != null) {
-                if (uMsg == WindowMessages.LBUTTONDOWN) {
-                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Left, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-                } else if (uMsg == WindowMessages.RBUTTONDOWN) {
-                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Right, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-                } else if (uMsg == WindowMessages.MBUTTONDOWN) {
-                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Middle, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-                }
-            } else if (this.MouseUp != null) {
-                if (uMsg == WindowMessages.LBUTTONUP) {
-                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Left, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-                } else if (uMsg == WindowMessages.RBUTTONUP) {
-                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Right, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-                } else if (uMsg == WindowMessages.MBUTTONUP) {
-                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Middle, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-                }
-            } else if (uMsg == WindowMessages.MOUSEMOVE) {
-                if (this.MouseMotion != null)
-                    this.MouseMotion(this, new MouseMotionEventArgs(new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
-            }
-
-            return User32.DefWindowProcW(hWnd, uMsg, wParam, lParam);
-        }
-
         // Variables
         User32.WndProc _wndprocdelegate;
         int _width;
@@ -145,11 +97,59 @@ namespace Lamby2D.Drawing
             }
         }
 
+        // Private
+        IntPtr WndProc(IntPtr hWnd, WindowMessages uMsg, IntPtr wParam, IntPtr lParam)
+        {
+            if (uMsg == WindowMessages.SYSKEYDOWN) {
+                if (wParam.ToInt32() == (int) KeyCode.F10 || wParam.ToInt32() == (int) KeyCode.Menu) {
+                    if (this.KeyDown != null) {
+                        this.KeyDown(this, new KeyEventArgs((KeyCode) wParam));
+                    }
+                    return IntPtr.Zero;
+                }
+            } else if (uMsg == WindowMessages.MOUSEMOVE) {
+                if (this.MouseMotion != null)
+                    this.MouseMotion(this, new MouseMotionEventArgs(new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+            } else if (uMsg == WindowMessages.CLOSE) {
+                if (this.Closing != null) {
+                    this.Closing(this, EventArgs.Empty);
+                }
+
+                User32.DestroyWindow(this.Handle);
+            } else if (uMsg == WindowMessages.DESTROY) {
+                if (this.Closed != null) {
+                    this.Closed(this, EventArgs.Empty);
+                }
+            } else if (uMsg == WindowMessages.KEYDOWN && this.KeyDown != null) {
+                this.KeyDown(this, new KeyEventArgs((KeyCode) wParam));
+            } else if (uMsg == WindowMessages.KEYUP && this.KeyUp != null) {
+                this.KeyUp(this, new KeyEventArgs((KeyCode) wParam));
+            } else if (this.MouseDown != null) {
+                if (uMsg == WindowMessages.LBUTTONDOWN) {
+                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Left, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+                } else if (uMsg == WindowMessages.RBUTTONDOWN) {
+                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Right, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+                } else if (uMsg == WindowMessages.MBUTTONDOWN) {
+                    this.MouseDown(this, new MouseButtonEventArgs(MouseButton.Middle, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+                }
+            } else if (this.MouseUp != null) {
+                if (uMsg == WindowMessages.LBUTTONUP) {
+                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Left, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+                } else if (uMsg == WindowMessages.RBUTTONUP) {
+                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Right, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+                } else if (uMsg == WindowMessages.MBUTTONUP) {
+                    this.MouseUp(this, new MouseButtonEventArgs(MouseButton.Middle, new Point(lParam.ToInt32() & 0xFFFF, (lParam.ToInt32() >> 16) & 0xFFFF)));
+                }
+            }
+
+            return User32.DefWindowProcW(hWnd, uMsg, wParam, lParam);
+        }
+
         // Constructors
         public Window()
         {
-            _width = 400;
-            _height = 300;
+            _width = 800;
+            _height = 600;
             _title = "Window";
             _style = WindowStyles.WS_OVERLAPPED | WindowStyles.WS_CAPTION | WindowStyles.WS_SYSMENU | WindowStyles.WS_MINIMIZEBOX;
             _wndprocdelegate = WndProc;

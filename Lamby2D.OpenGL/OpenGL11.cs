@@ -215,6 +215,8 @@ namespace Lamby2D.OpenGL
         public static extern void glTranslatef(float x, float y, float z);
         [DllImport(DllName, EntryPoint = "glRotatef")]
         public static extern void glRotatef(float angle, float x, float y, float z);
+        [DllImport(DllName, EntryPoint = "glViewport")]
+        public static extern void glViewport(int x, int y, int width, int height);
         #endregion
 
         // Public static

@@ -22,13 +22,16 @@ namespace Lamby2D.Drawing
         public int Width
         {
             get { return _window.Width; }
-            set { _window.Width = value; }
         }
         public int Height
         {
             get { return _window.Height; }
-            set { _window.Height = value; }
-        }        
+        }
+        public string Title
+        {
+            get { return _window.Title; }
+            set { _window.Title = value; }
+        }
         internal Window Window
         {
             get { return (_windowclosed ? null : _window); }
@@ -51,6 +54,18 @@ namespace Lamby2D.Drawing
                 _window.Dispose();
                 _window = null;
             }
+        }
+        public void Resize(int width, int height)
+        {
+            if (_window.Width == width && _window.Height == height) {
+                return;
+            }
+
+            _window.Width = width;
+            _window.Height = height;
+
+            // TODO opengl resize routine
+            OpenGL11.glViewport(0, 0, width, height);
         }
 
         // Constructors
