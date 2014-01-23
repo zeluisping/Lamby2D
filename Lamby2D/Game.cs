@@ -21,18 +21,6 @@ namespace Lamby2D
         public Graphics Graphics { get; private set; }
         public GameInput Input { get; private set; }
 
-        // Events
-        public event KeyEventHandler KeyDown
-        {
-            add { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyDown += value; }
-            remove { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyDown += value; }
-        }
-        public event KeyEventHandler KeyUp
-        {
-            add { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyUp += value; }
-            remove { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyUp += value; }
-        }
-
         // Public
         public void MainLoop()
         {
@@ -88,6 +76,11 @@ namespace Lamby2D
             if (obj is IStaticDrawable) {
                 _staticdrawables.Add(obj as IStaticDrawable);
             }
+
+            // Input
+            if (obj is IClickable) {
+                this.Input.Clickables.Add(obj as IClickable);
+            }
         }
         internal void UnRegisterGameObject(GameObject obj)
         {
@@ -99,6 +92,11 @@ namespace Lamby2D
             // Drawing
             if (obj is IStaticDrawable) {
                 _staticdrawables.Remove(obj as IStaticDrawable);
+            }
+
+            // Input
+            if (obj is IClickable) {
+                this.Input.Clickables.Remove(obj as IClickable);
             }
         }
 

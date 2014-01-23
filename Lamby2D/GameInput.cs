@@ -15,6 +15,7 @@ namespace Lamby2D
         bool[] _mousestates;
         Point _mousepos;
         Point _mousedelta;
+        List<IClickable> _clickables;
 
         // Properties
         public Point MousePosition
@@ -24,6 +25,10 @@ namespace Lamby2D
         public Point MouseDelta
         {
             get { return _mousedelta; }
+        }
+        internal List<IClickable> Clickables
+        {
+            get { return _clickables; }
         }
 
         // Events
@@ -53,6 +58,23 @@ namespace Lamby2D
             _mousestates[(int) e.Button] = true;
             if (this.MouseDown != null) {
                 this.MouseDown(this, e);
+            }
+
+            if (e.Handled == false) {
+                IClickable clicked = null;
+                foreach (IClickable clickable in _clickables) {
+                    if (clickable.IsHitTestVisible == true && clickable.ClickHitTest(_mousepos, e.Button) == true) {
+                        clicked = (clicked == null
+                                        ? clickable
+                                        : clickable.ZIndex > clicked.ZIndex
+                                                ? clickable
+                                                : clicked);
+                    }
+                }
+
+                if (clicked != null) {
+                    clicked.OnClick(e.Button);
+                }
             }
         }
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)
@@ -89,6 +111,7 @@ namespace Lamby2D
         {
             _keystates = new bool[255];
             _mousestates = new bool[5];
+            _clickables = new List<IClickable>();
 
             Game.Current.Graphics.GraphicsContext.Window.KeyDown += Window_KeyDown;
             Game.Current.Graphics.GraphicsContext.Window.KeyUp += Window_KeyUp;

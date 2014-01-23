@@ -12,6 +12,7 @@ namespace Lamby2D.Input
     {
         // Properties
         public MouseButton Button { get; private set; }
+        public bool Handled { get; set; }
 
         // Constructors
         public MouseButtonEventArgs(MouseButton button)

@@ -39,11 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IClickable.cs" />
     <Compile Include="KeyCode.cs" />
     <Compile Include="KeyEventArgs.cs" />
     <Compile Include="MouseButton.cs" />
     <Compile Include="MouseButtonEventArgs.cs" />
+    <Compile Include="MouseMotionEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lamby2D.Core\Lamby2D.Core.csproj">
+      <Project>{d3dd25b5-d27d-4281-8a27-d0d854f53fa8}</Project>
+      <Name>Lamby2D.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

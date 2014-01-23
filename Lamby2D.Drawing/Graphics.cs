@@ -125,7 +125,7 @@ namespace Lamby2D.Drawing
 
             OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
             OpenGL11.glLoadIdentity();
-            OpenGL11.glOrtho(-1, 1, 1, -1, Int32.MaxValue, 0);
+            OpenGL11.glOrtho(-1, 1, 1, -1, Int32.MaxValue, Int32.MinValue);
             OpenGL11.glMatrixMode(OpenGL11.GL_MODELVIEW);
             OpenGL11.glLoadIdentity();
             OpenGL11.glDisable(OpenGL11.GL_DEPTH_TEST);

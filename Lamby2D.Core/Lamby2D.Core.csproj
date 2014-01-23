@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector2.cs" />
   </ItemGroup>
