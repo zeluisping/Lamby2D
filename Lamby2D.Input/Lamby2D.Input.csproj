@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F89D112D-2FDD-43E8-82BB-91CE0A66AB87}</ProjectGuid>
+    <ProjectGuid>{B9492DD0-6175-42D7-8A91-70E6180B5B8C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lamby2D</RootNamespace>
-    <AssemblyName>Lamby2D</AssemblyName>
+    <RootNamespace>Lamby2D.Input</RootNamespace>
+    <AssemblyName>Lamby2D.Input</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,22 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
+    <Compile Include="Key.cs" />
+    <Compile Include="KeyEventArgs.cs" />
+    <Compile Include="MouseButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lamby2D.Core\Lamby2D.Core.csproj">
-      <Project>{d3dd25b5-d27d-4281-8a27-d0d854f53fa8}</Project>
-      <Name>Lamby2D.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lamby2D.Drawing\Lamby2D.Drawing.csproj">
-      <Project>{78360a3f-45c6-4490-b179-5e5b891e7816}</Project>
-      <Name>Lamby2D.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lamby2D.Input\Lamby2D.Input.csproj">
-      <Project>{b9492dd0-6175-42d7-8a91-70e6180b5b8c}</Project>
-      <Name>Lamby2D.Input</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -107,9 +107,9 @@ namespace Lamby2D.Drawing
         public void Draw(IStaticDrawable drawable)
         {
             OpenGL11.glPushMatrix();
-            OpenGL11.glTranslatef(drawable.Center.X, drawable.Center.Y, 0);
-            OpenGL11.glRotatef(drawable.Rotation, 0, 0, 1);
             OpenGL11.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
+            OpenGL11.glRotatef(drawable.Rotation, 0, 0, 1);
+            OpenGL11.glTranslatef(-drawable.Center.X, -drawable.Center.Y, 0);
             Draw(drawable.Texture);
             OpenGL11.glPopMatrix();
         }

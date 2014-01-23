@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Lamby2D.Input;
 using Lamby2D.Native;
 
 namespace Lamby2D.Drawing
@@ -18,11 +19,16 @@ namespace Lamby2D.Drawing
                 if (this.Closing != null) {
                     this.Closing(this, EventArgs.Empty);
                 }
+                
                 User32.DestroyWindow(this.Handle);
             } else if (uMsg == WindowMessages.DESTROY) {
                 if (this.Closed != null) {
                     this.Closed(this, EventArgs.Empty);
                 }
+            } else if (uMsg == WindowMessages.KEYDOWN && this.KeyDown != null) {
+                this.KeyDown(this, new KeyEventArgs((Key) wParam));
+            } else if (uMsg == WindowMessages.KEYUP && this.KeyUp != null) {
+                this.KeyUp(this, new KeyEventArgs((Key) wParam));
             }
 
             return User32.DefWindowProcW(hWnd, uMsg, wParam, lParam);
@@ -63,6 +69,8 @@ namespace Lamby2D.Drawing
         // Events
         public event EventHandler Closing;
         public event EventHandler Closed;
+        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler KeyUp;
 
         // Public
         public void Show()

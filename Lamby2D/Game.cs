@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lamby2D.Drawing;
+using Lamby2D.Input;
 
 namespace Lamby2D
 {
@@ -11,6 +12,18 @@ namespace Lamby2D
     {
         // Properties
         public Graphics Graphics { get; private set; }
+
+        // Events
+        public event KeyEventHandler KeyDown
+        {
+            add { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyDown += value; }
+            remove { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyDown += value; }
+        }
+        public event KeyEventHandler KeyUp
+        {
+            add { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyUp += value; }
+            remove { if (this.Graphics.GraphicsContext.Window != null) this.Graphics.GraphicsContext.Window.KeyUp += value; }
+        }
         
         // Public
         public void MainLoop()

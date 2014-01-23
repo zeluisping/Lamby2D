@@ -36,7 +36,15 @@ namespace Lamby2D.Drawing
         // Properties
         public uint ID { get; private set; }
 
-        // Publics
+        // Public
+        public override bool Equals(object obj)
+        {
+            return (obj is Texture2D && (Texture2D) obj == this);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         public void Dispose()
         {
             if (this.ID != 0) {

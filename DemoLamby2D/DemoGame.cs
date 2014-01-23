@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Lamby2D;
 using Lamby2D.Core;
 using Lamby2D.Drawing;
+using Lamby2D.Input;
 
 namespace DemoLamby2D
 {
@@ -14,12 +16,36 @@ namespace DemoLamby2D
         // Variables
         Texture2D texture;
         Image image;
+        Vector2 direction;
+
+        // Handlers
+        private void DemoGame_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A || e.Key == Key.D) {
+                direction.X = 0;
+            } else if (e.Key == Key.W || e.Key == Key.S) {
+                direction.Y = 0;
+            }
+        }
+        private void DemoGame_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A) {
+                direction.X = -1;
+            } else if (e.Key == Key.D) {
+                direction.X = 1;
+            } else if (e.Key == Key.W) {
+                direction.Y = -1;
+            } else if (e.Key == Key.S) {
+                direction.Y = 1;
+            }
+        }
 
         // Public
         public override void Update(float DeltaTime)
         {
             this.Graphics.GraphicsContext.Window.Title = DeltaTime.ToString();
             image.Rotation += DeltaTime * 10;
+            image.Position += direction * DeltaTime * 0.5f;
         }
         public override void Draw()
         {
@@ -38,6 +64,9 @@ namespace DemoLamby2D
         public DemoGame()
         {
             this.Graphics.BackgroundColor = Colors.Orange;
+            this.KeyDown += DemoGame_KeyDown;
+            this.KeyUp += DemoGame_KeyUp;
+            
             texture = this.Graphics.CreateTexture("D:\\charanim.png");
             image = new Image(texture) {
                 Center = new Vector2(0.5f),

@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\Lamby2D.Drawing\Lamby2D.Drawing.csproj">
       <Project>{78360a3f-45c6-4490-b179-5e5b891e7816}</Project>
       <Name>Lamby2D.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lamby2D.Input\Lamby2D.Input.csproj">
+      <Project>{b9492dd0-6175-42d7-8a91-70e6180b5b8c}</Project>
+      <Name>Lamby2D.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lamby2D\Lamby2D.csproj">
       <Project>{f89d112d-2fdd-43e8-82bb-91ce0a66ab87}</Project>
