@@ -32,6 +32,11 @@ namespace Lamby2D.Drawing
             get { return _window.Title; }
             set { _window.Title = value; }
         }
+        public bool ShowCursor
+        {
+            get { return _window.ShowCursor; }
+            set { _window.ShowCursor = value; }
+        }
         internal Window Window
         {
             get { return (_windowclosed ? null : _window); }
@@ -64,8 +69,11 @@ namespace Lamby2D.Drawing
             _window.Width = width;
             _window.Height = height;
 
-            // TODO opengl resize routine
             OpenGL11.glViewport(0, 0, width, height);
+            OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
+            OpenGL11.glLoadIdentity();
+            OpenGL11.glOrtho(0, this.Width, this.Height, 0, 1, -1);
+            OpenGL11.glMatrixMode(OpenGL11.GL_MODELVIEW);
         }
 
         // Constructors

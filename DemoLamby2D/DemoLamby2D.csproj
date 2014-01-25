@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cursor.cs" />
     <Compile Include="DemoGame.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="ImageGameObject.cs" />
@@ -72,7 +73,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cursor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DevIL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="hud.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="texture.png">

@@ -35,6 +35,8 @@ namespace Lamby2D.Drawing
 
         // Properties
         public uint ID { get; private set; }
+        public int Width { get; internal set; }
+        public int Height { get; internal set; }
 
         // Public
         public override bool Equals(object obj)
@@ -58,14 +60,6 @@ namespace Lamby2D.Drawing
         internal Texture2D(uint id)
         {
             this.ID = id;
-        }
-        ~Texture2D()
-        {
-            if (this.ID != 0) {
-                uint[] textures = new uint[1] { this.ID };
-                OpenGL11.glDeleteTextures(1, Marshal.UnsafeAddrOfPinnedArrayElement(textures, 0));
-                this.ID = 0;
-            }
         }
     }
 }

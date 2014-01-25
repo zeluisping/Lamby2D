@@ -12,17 +12,35 @@ namespace DemoLamby2D
 {
     class ImageGameObject : GameObject, IStaticDrawable, IClickable, ITickable
     {
+        // Variables
+        int _zindex;
+
         // Properties
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Center { get; set; }
+        public Vector2 Scale { get; set; }
         public float Rotation { get; set; }
         public bool IsVisible { get; set; }
-        public int ZIndex { get; set; }
+        public int ZIndex
+        {
+            get { return _zindex; }
+            set
+            {
+                if (_zindex != value) {
+                    int old = _zindex;
+                    _zindex = value;
+                    if (this.ZIndexChanged != null) {
+                        this.ZIndexChanged(this, new ZIndexChangedEventArgs(old, value));
+                    }
+                }
+            }
+        }
         public bool IsHitTestVisible { get; set; }
 
         // Events
         public event MouseButtonEventHandler Clicked;
+        public event ZIndexChangedEventHandler ZIndexChanged;
 
         // Public
         public virtual void OnClick(MouseButton button, Point position)
@@ -39,14 +57,14 @@ namespace DemoLamby2D
             }
 
             // default object size is (Width = 1, Height = 1)
-            return (world.X >= this.Position.X - this.Center.X &&
-                    world.X <= this.Position.X + 1 - this.Center.X &&
-                    world.Y >= this.Position.Y - this.Center.Y &&
-                    world.Y <= this.Position.Y + 1 - this.Center.Y);
+            return (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Texture.Width &&
+                    world.X <= this.Position.X + 1 - this.Center.X * this.Scale.X * this.Texture.Width &&
+                    world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height &&
+                    world.Y <= this.Position.Y + 1 - this.Center.Y * this.Scale.Y * this.Texture.Height);
         }
         public void Update(float DeltaTime)
         {
-            float speed = 1.0f;
+            float speed = 110.0f;
 
             if (Game.Current.Input.IsKeyDown(KeyCode.A) == true) {
                 this.Position -= new Vector2(speed * DeltaTime * 0.5f, 0);
@@ -67,6 +85,7 @@ namespace DemoLamby2D
         {
             this.IsVisible = true; // change default value to true
             this.IsHitTestVisible = true; // same as above
-        }
+            this.Scale = Vector2.One;
+        }        
     }
 }

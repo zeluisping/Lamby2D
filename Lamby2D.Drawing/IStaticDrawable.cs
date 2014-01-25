@@ -15,7 +15,11 @@ namespace Lamby2D.Drawing
         Texture2D Texture { get; }
         Vector2 Position { get; }
         Vector2 Center { get; }
+        Vector2 Scale { get; }
         float Rotation { get; }
         bool IsVisible { get; }
+        int ZIndex { get; }
+
+        event ZIndexChangedEventHandler ZIndexChanged;
     }
 }

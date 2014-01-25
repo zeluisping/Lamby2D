@@ -135,6 +135,15 @@ namespace Lamby2D.OpenGL
         public const uint GL_MODELVIEW = 0x1700;
         public const uint GL_PROJECTION = 0x1701;
         public const uint GL_TEXTURE = 0x1702;
+        // glDepthFunc
+        public const int GL_NEVER = 0x0200;
+        public const int GL_LESS = 0x0201;
+        public const int GL_EQUAL = 0x0202;
+        public const int GL_LEQUAL = 0x0203;
+        public const int GL_GREATER = 0x0204;
+        public const int GL_NOTEQUAL = 0x0205;
+        public const int GL_GEQUAL = 0x0206;
+        public const int GL_ALWAYS = 0x0207;
 
         // Private constants
         const string DllName = "opengl32.dll";
@@ -144,79 +153,91 @@ namespace Lamby2D.OpenGL
 
         // Dll imports
         #region opengl32.dll
-        [DllImport(DllName, EntryPoint = "wglDescribePixelFormat")]
+        [DllImport(DllName)]
         public static extern int wglDescribePixelFormat(IntPtr hdc, int ipfd, uint cjpfd, [In, MarshalAs(UnmanagedType.LPStruct)] PixelFormatDescriptor ppfd);
-        [DllImport(DllName, EntryPoint = "wglCreateContext")]
+        [DllImport(DllName)]
         public static extern IntPtr wglCreateContext(IntPtr hDc);
-        [DllImport(DllName, EntryPoint = "wglDeleteContext")]
+        [DllImport(DllName)]
         public static extern bool wglDeleteContext(IntPtr oldContext);
-        [DllImport(DllName, EntryPoint = "wglMakeCurrent")]
+        [DllImport(DllName)]
         public static extern bool wglMakeCurrent(IntPtr hDc, IntPtr newContext);
 
-        [DllImport(DllName, EntryPoint = "glClear")]
+        [DllImport(DllName)]
         public static extern void glClear(uint mask);
-        [DllImport(DllName, EntryPoint = "glClearColor")]
+        [DllImport(DllName)]
         public static extern void glClearColor(float red, float green, float blue, float alpha);
-        [DllImport(DllName, EntryPoint = "glBlendFunc")]
+        [DllImport(DllName)]
         public static extern void glBlendFunc(uint sfactor, uint dfactor);
-        [DllImport(DllName, EntryPoint = "glBindTexture")]
+        [DllImport(DllName)]
         public static extern void glBindTexture(uint target, uint texture);
-        [DllImport(DllName, EntryPoint = "glCullFace")]
+        [DllImport(DllName)]
         public static extern void glCullFace(uint mode);
-        [DllImport(DllName, EntryPoint = "glEnable")]
+        [DllImport(DllName)]
         public static extern void glEnable(uint cap);
-        [DllImport(DllName, EntryPoint = "glDisable")]
+        [DllImport(DllName)]
         public static extern void glDisable(uint cap);
-        [DllImport(DllName, EntryPoint = "glFinish")]
+        [DllImport(DllName)]
         public static extern void glFinish();
-        [DllImport(DllName, EntryPoint = "glFlush")]
+        [DllImport(DllName)]
         public static extern void glFlush();
-        [DllImport(DllName, EntryPoint = "glFrontFace")]
+        [DllImport(DllName)]
         public static extern void glFrontFace(uint mode);
-        [DllImport(DllName, EntryPoint = "glDeleteTextures")]
+        [DllImport(DllName)]
         public static extern void glDeleteTextures(int n, IntPtr textures);
-        [DllImport(DllName, EntryPoint = "glGenTextures")]
+        [DllImport(DllName)]
         public static extern void glGenTextures(int n, IntPtr textures);
-        [DllImport(DllName, EntryPoint = "glLoadMatrixf")]
+        [DllImport(DllName)]
         public static extern void glLoadMatrixf(IntPtr m);
-        [DllImport(DllName, EntryPoint = "glPolygonMode")]
+        [DllImport(DllName)]
         public static extern void glPolygonMode(uint face, uint mode);
-        [DllImport(DllName, EntryPoint = "glScissor")]
+        [DllImport(DllName)]
         public static extern void glScissor(int x, int y, int width, int height);
-        [DllImport(DllName, EntryPoint = "glTexParameteri")]
+        [DllImport(DllName)]
         public static extern void glTexParameteri(uint target, uint pname, int param);
-        [DllImport(DllName, EntryPoint = "glTexImage2D")]
+        [DllImport(DllName)]
         public static extern void glTexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, IntPtr pixels);
-        [DllImport(DllName, EntryPoint = "glEnableClientState")]
+        [DllImport(DllName)]
         public static extern void glEnableClientState(uint cap);
-        [DllImport(DllName, EntryPoint = "glDisableClientState")]
+        [DllImport(DllName)]
         public static extern void glDisableClientState(uint cap);
-        [DllImport(DllName, EntryPoint = "glColorPointer")]
+        [DllImport(DllName)]
         public static extern void glColorPointer(int size, uint type, int stride, IntPtr pointer);
-        [DllImport(DllName, EntryPoint = "glVertexPointer")]
-        public static extern void glVertexPointer(int size, uint type, int stride, IntPtr pointer);
-        [DllImport(DllName, EntryPoint = "glTexCoordPointer")]
-        public static extern void glTexCoordPointer(int size, uint type, int stride, IntPtr pointer);
-        [DllImport(DllName, EntryPoint = "glDrawElements")]
+        [DllImport(DllName)]
+        public static extern void glVertexPointer(int size, uint type, int stride, float[] pointer);
+        [DllImport(DllName)]
+        public static extern void glTexCoordPointer(int size, uint type, int stride, float[] pointer);
+        [DllImport(DllName)]
         public static extern void glDrawElements(uint mode, int count, uint type, IntPtr pointer);
-        [DllImport(DllName, EntryPoint = "glOrtho")]
+        [DllImport(DllName)]
         public static extern void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar);
-        [DllImport(DllName, EntryPoint = "glMatrixMode")]
+        [DllImport(DllName)]
         public static extern void glMatrixMode(uint mode);
-        [DllImport(DllName, EntryPoint = "glLoadIdentity")]
+        [DllImport(DllName)]
         public static extern void glLoadIdentity();
-        [DllImport(DllName, EntryPoint = "glDrawArrays")]
+        [DllImport(DllName)]
         public static extern void glDrawArrays(uint mode, int stride, int count);
-        [DllImport(DllName, EntryPoint = "glPushMatrix")]
+        [DllImport(DllName)]
         public static extern void glPushMatrix();
-        [DllImport(DllName, EntryPoint = "glPopMatrix")]
+        [DllImport(DllName)]
         public static extern void glPopMatrix();
-        [DllImport(DllName, EntryPoint = "glTranslatef")]
+        [DllImport(DllName)]
         public static extern void glTranslatef(float x, float y, float z);
-        [DllImport(DllName, EntryPoint = "glRotatef")]
+        [DllImport(DllName)]
         public static extern void glRotatef(float angle, float x, float y, float z);
-        [DllImport(DllName, EntryPoint = "glViewport")]
+        [DllImport(DllName)]
+        public static extern void glScalef(float x, float y, float z);
+        [DllImport(DllName)]
         public static extern void glViewport(int x, int y, int width, int height);
+        [DllImport(DllName)]
+        public static extern void glIndexPointer(uint type, int stride, IntPtr pointer);
+        [DllImport(DllName)]
+        public static extern void glDepthFunc(uint func);
+        [DllImport(DllName)]
+        public static extern void glClearDepth(double depth);
+        [DllImport(DllName)]
+        public static extern void glDepthRange(double nearVal, double farVal);
+        [DllImport(DllName)]
+        public static extern void glAlphaFunc(uint func, float _ref);
         #endregion
 
         // Public static

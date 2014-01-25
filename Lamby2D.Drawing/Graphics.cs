@@ -14,25 +14,25 @@ namespace Lamby2D.Drawing
     {
         // Variables
         Color _backgroundcolor;
-        float[,] _vertices = new float[4, 2]
+        readonly float[] _vertexdata = new float[6 * 2]
         {
-             { 0, 0 },
-             { 1, 0 },
-             { 1, 1 },
-             { 0, 1 },
+            0, 0,
+            1, 0,
+            1, 1,
+            1, 1,
+            0, 1,
+            0, 0,
         };
-        float[,] _texcoords = new float[4, 2]
+        float[,] _texcoords = new float[6, 2]
         {
             { 0, 0 },
             { 1, 0 },
             { 1, 1 },
+            { 1, 1 },
             { 0, 1 },
+            { 0, 0 },
         };
-        uint[] _indices = new uint[6]
-        {
-            0, 1, 3,
-            1, 2, 3,
-        };
+        List<Texture2D> _textures;
 
         // Properties
         public GraphicsContext GraphicsContext { get; private set; }
@@ -51,7 +51,7 @@ namespace Lamby2D.Drawing
         // Public
         public void Clear()
         {
-            OpenGL11.glClear(OpenGL11.GL_COLOR_BUFFER_BIT);
+            OpenGL11.glClear(OpenGL11.GL_COLOR_BUFFER_BIT | OpenGL11.GL_DEPTH_BUFFER_BIT);
         }
         public void Flush()
         {
@@ -70,7 +70,9 @@ namespace Lamby2D.Drawing
             OpenGL11.glTexImage2D(OpenGL11.GL_TEXTURE_2D, 0, (int) format, (int) width, (int) height, 0, (uint) format, OpenGL11.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(pixels, 0));
             OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, 0);
 
-            return new Texture2D(textures[0]);
+            Texture2D result = new Texture2D(textures[0]) { Width = (int) width, Height = (int) height };
+            _textures.Add(result);
+            return result;
         }
         public Texture2D CreateTexture(string filename)
         {
@@ -99,34 +101,44 @@ namespace Lamby2D.Drawing
             this.GraphicsContext.Dispose();
             this.GraphicsContext = null;
         }
-        public void Draw(Texture2D texture)
-        {
-            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (texture == null ? 0 : texture.ID));
-            OpenGL11.glDrawElements(OpenGL11.GL_TRIANGLES, 6, OpenGL11.GL_UNSIGNED_INT, Marshal.UnsafeAddrOfPinnedArrayElement(_indices, 0));
-        }
         public void Draw(IStaticDrawable drawable)
         {
             OpenGL11.glPushMatrix();
-            OpenGL11.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
+            if (drawable.Position != drawable.Position) {
+                OpenGL11.glTranslatef(this.GraphicsContext.Width / 2.0f, this.GraphicsContext.Height / 2.0f, 0);
+            } else {
+                OpenGL11.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
+            }
+
+            if (drawable.Scale != drawable.Scale) {
+                OpenGL11.glScalef(this.GraphicsContext.Width, this.GraphicsContext.Height, 1);
+            } else {
+                OpenGL11.glScalef(drawable.Scale.X * drawable.Texture.Width, drawable.Scale.Y * drawable.Texture.Height, 1);
+            }
+
             OpenGL11.glRotatef(drawable.Rotation, 0, 0, 1);
             OpenGL11.glTranslatef(-drawable.Center.X, -drawable.Center.Y, 0);
-            Draw(drawable.Texture);
+            draw(drawable.Texture);
             OpenGL11.glPopMatrix();
         }
         public Vector2 ScreenToWorld(Point screen)
         {
-            return new Vector2((screen.X / (float) this.GraphicsContext.Width) * 2 - 1, (screen.Y / (float) this.GraphicsContext.Height) * 2 - 1);
+            return new Vector2(screen.X, screen.Y);
         }
         public Point? WorldToScreen(Vector2 world)
         {
-            if (world.X < 0 || world.X >= this.GraphicsContext.Width || world.Y < 0 || world.Y > this.GraphicsContext.Height) {
+            if (world.X < 0 || world.X >= this.GraphicsContext.Width || world.X < 0 || world.Y >= this.GraphicsContext.Height) {
                 return null;
             }
-            // world.x = (screen.X / this.GraphicsContext.Width) * 2 - 1
-            // world.x + 1 = (screen.X / this.GraphicsContext.Width) * 2
-            // (world.x + 1) / 2 = (screen.X / this.GraphicsContext.Width)
-            // ((world.X + 1) * this.GraphicsContext.Width) / 2 = screen.X
-            return new Point((int) (((world.X + 1) * this.GraphicsContext.Width) / 2), (int) (((world.Y + 1) * this.GraphicsContext.Height) / 2));
+            return new Point((int) world.X, (int) world.Y);
+        }
+
+        // Private
+        void draw(Texture2D texture)
+        {
+            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (texture == null ? 0 : texture.ID));
+            //OpenGL11.glDrawElements(OpenGL11.GL_TRIANGLES, 6, OpenGL11.GL_UNSIGNED_INT, IntPtr.Zero);//Marshal.UnsafeAddrOfPinnedArrayElement(_indices, 0));
+            OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
         }
 
         // Constructors
@@ -138,24 +150,29 @@ namespace Lamby2D.Drawing
             this.BackgroundColor = Colors.Black;
             this.GraphicsContext.Window.Show();
 
+            _textures = new List<Texture2D>();
+
             OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
             OpenGL11.glLoadIdentity();
-            OpenGL11.glOrtho(-1, 1, 1, -1, Int32.MaxValue, Int32.MinValue);
+            OpenGL11.glOrtho(0, this.GraphicsContext.Width, this.GraphicsContext.Height, 0, 1, -1);
             OpenGL11.glMatrixMode(OpenGL11.GL_MODELVIEW);
             OpenGL11.glLoadIdentity();
-            OpenGL11.glDisable(OpenGL11.GL_DEPTH_TEST);
-            OpenGL11.glDisable(OpenGL11.GL_STENCIL_TEST);
             OpenGL11.glEnable(OpenGL11.GL_CULL_FACE);
             OpenGL11.glEnable(OpenGL11.GL_BLEND);
             OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+            //OpenGL11.glEnable(OpenGL11.GL_DEPTH_TEST);
+            //OpenGL11.glEnable(OpenGL11.GL_ALPHA_TEST);
             OpenGL11.glCullFace(OpenGL11.GL_BACK);
-            OpenGL11.glFrontFace(OpenGL11.GL_CCW);
+            OpenGL11.glFrontFace(OpenGL11.GL_CW);
             OpenGL11.glBlendFunc(OpenGL11.GL_SRC_ALPHA, OpenGL11.GL_ONE_MINUS_SRC_ALPHA);
+            //OpenGL11.glDepthFunc(OpenGL11.GL_GEQUAL);
+            //OpenGL11.glAlphaFunc(OpenGL11.GL_GREATER, 0.5f);
+            //OpenGL11.glClearDepth(int.MinValue);
+            //OpenGL11.glDepthRange(int.MaxValue, int.MinValue);
             OpenGL11.glEnableClientState(OpenGL11.GL_VERTEX_ARRAY);
             OpenGL11.glEnableClientState(OpenGL11.GL_TEXTURE_COORD_ARRAY);
-            OpenGL11.glVertexPointer(2, OpenGL11.GL_FLOAT, 0, Marshal.UnsafeAddrOfPinnedArrayElement(_vertices, 0));
-            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, Marshal.UnsafeAddrOfPinnedArrayElement(_texcoords, 0));
-            OpenGL11.glDisable(OpenGL11.GL_CULL_FACE);
+            OpenGL11.glVertexPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
+            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
         }
     }
 }

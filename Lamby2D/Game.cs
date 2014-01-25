@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lamby2D.Core;
 using Lamby2D.Drawing;
 using Lamby2D.Input;
 
@@ -15,11 +16,19 @@ namespace Lamby2D
 
         // Variables
         List<ITickable> _tickables;
+        //SortedList<int, IStaticDrawable> _staticdrawables;
         List<IStaticDrawable> _staticdrawables;
 
         // Properties
         public Graphics Graphics { get; private set; }
         public GameInput Input { get; private set; }
+
+        // Handlers
+        /*private void staticdrawable_ZIndexChanged(object sender, ZIndexChangedEventArgs e)
+        {
+            _staticdrawables.Remove(e.OldValue);
+            _staticdrawables.Add(e.NewValue, (IStaticDrawable) sender);
+        }*/
 
         // Public
         public void MainLoop()
@@ -43,19 +52,20 @@ namespace Lamby2D
                 }
 
                 this.Graphics.Clear();
-                foreach (IStaticDrawable staticdrawable in _staticdrawables) {
-                    if (staticdrawable.IsVisible == true) {
-                        this.Graphics.Draw(staticdrawable);
+                _staticdrawables.Sort((a, b) => a.ZIndex - b.ZIndex);
+                foreach (IStaticDrawable drawable in _staticdrawables) {
+                    if (drawable.IsVisible == true) {
+                        this.Graphics.Draw(drawable);
                     }
                 }
-                Draw();
+                PostDraw();
                 this.Graphics.Flush();
             }
         }
         public virtual void Update(float DeltaTime)
         {
         }
-        public virtual void Draw()
+        public virtual void PostDraw()
         {
         }
         public void Dispose()
@@ -75,7 +85,11 @@ namespace Lamby2D
 
             // Drawing
             if (obj is IStaticDrawable) {
-                _staticdrawables.Add(obj as IStaticDrawable);
+                IStaticDrawable staticdrawable = (IStaticDrawable) obj;
+                _staticdrawables.Add(staticdrawable);
+                //_staticdrawables.Sort((a, b) => a.ZIndex - b.ZIndex);
+                //_staticdrawables.Add(staticdrawable.ZIndex, staticdrawable);
+                //staticdrawable.ZIndexChanged += staticdrawable_ZIndexChanged;
             }
 
             // Input
@@ -92,7 +106,10 @@ namespace Lamby2D
 
             // Drawing
             if (obj is IStaticDrawable) {
-                _staticdrawables.Remove(obj as IStaticDrawable);
+                IStaticDrawable staticdrawable = (IStaticDrawable) obj;
+                _staticdrawables.Remove(staticdrawable);
+                //_staticdrawables.Remove(staticdrawable.ZIndex);
+                //staticdrawable.ZIndexChanged -= staticdrawable_ZIndexChanged;
             }
 
             // Input

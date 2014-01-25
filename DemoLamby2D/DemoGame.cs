@@ -15,43 +15,42 @@ namespace DemoLamby2D
     {
         // Variables
         Texture2D texture;
-        Image image;
         ImageGameObject imagegameobject;
+        Cursor cursor;
 
         // Public
         public override void Update(float DeltaTime)
         {
-            image.Rotation += DeltaTime * 10;
         }
-        public override void Draw()
+        public override void PostDraw()
         {
-            // image is not a GameObject, so it does not draw by itself
-            this.Graphics.Draw(image);
+            // stuff drawn here is on top of everything else
+            this.Graphics.Draw(cursor);
         }
 
         // Protected
         protected override void Cleanup()
         {
             texture.Dispose();
+            cursor.Texture.Dispose();
         }
 
         // Constructors
         public DemoGame()
         {
             this.Graphics.BackgroundColor = Colors.Orange;
-            this.Graphics.GraphicsContext.Resize(400, 300);
+            this.Graphics.GraphicsContext.Resize(640, 360);
             this.Graphics.GraphicsContext.Title = "Demo Game";
+            this.Graphics.GraphicsContext.ShowCursor = false;            
+
+            cursor = new Cursor();
 
             texture = this.Graphics.CreateTexture("texture.png");
-            image = new Image(texture) {
-                Center = new Vector2(0.5f),
-                Position = new Vector2(-0.5f),
-            };
-
             imagegameobject = new ImageGameObject() {
                 Center = new Vector2(0.5f),
                 Position = new Vector2(+0.5f),
-                Texture = texture, // textures can be used by multiple drawables at the same time
+                Texture = texture,
+                Rotation = 90,
             };
             imagegameobject.Clicked += delegate
             {
