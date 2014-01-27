@@ -173,7 +173,7 @@ namespace Lamby2D.Drawing
             OpenGL11.glEnableClientState(OpenGL11.GL_TEXTURE_COORD_ARRAY);
             OpenGL11.glVertexPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
             OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
-            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
+            //OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
         }
     }
 }
