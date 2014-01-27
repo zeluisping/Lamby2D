@@ -56,11 +56,10 @@ namespace DemoLamby2D
                 return false;
             }
 
-            // default object size is (Width = 1, Height = 1)
             return (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Texture.Width &&
-                    world.X <= this.Position.X + 1 - this.Center.X * this.Scale.X * this.Texture.Width &&
+                    world.X <= this.Position.X - this.Center.X * this.Scale.X * this.Texture.Width + this.Texture.Width * this.Scale.X &&
                     world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height &&
-                    world.Y <= this.Position.Y + 1 - this.Center.Y * this.Scale.Y * this.Texture.Height);
+                    world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height + this.Texture.Height * this.Scale.Y);
         }
         public void Update(float DeltaTime)
         {

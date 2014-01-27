@@ -238,6 +238,10 @@ namespace Lamby2D.OpenGL
         public static extern void glDepthRange(double nearVal, double farVal);
         [DllImport(DllName)]
         public static extern void glAlphaFunc(uint func, float _ref);
+        [DllImport(DllName)]
+        public static extern uint glGenLists(int range);
+        [DllImport(DllName)]
+        public static extern uint glGenTextures(int n, uint[] textures);
         #endregion
 
         // Public static

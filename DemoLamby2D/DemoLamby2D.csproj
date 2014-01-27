@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="IMMORTAL.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lamby2D.Core\Lamby2D.Core.csproj">
@@ -79,7 +80,7 @@
     <Content Include="DevIL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="hud.png">
+    <Content Include="freetype252.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="texture.png">

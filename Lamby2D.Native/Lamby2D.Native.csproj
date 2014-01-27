@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DevIL.cs" />
+    <Compile Include="FreeType\FreeType.cs" />
+    <Compile Include="FreeType\FT_Bitmap.cs" />
     <Compile Include="GDI32.cs" />
     <Compile Include="Kernel32.cs" />
     <Compile Include="MSG.cs" />

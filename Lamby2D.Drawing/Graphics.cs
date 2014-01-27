@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lamby2D.Core;
 using Lamby2D.Native;
+using Lamby2D.Native.FreeType;
 using Lamby2D.OpenGL;
 
 namespace Lamby2D.Drawing
@@ -162,8 +163,7 @@ namespace Lamby2D.Drawing
             OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
             //OpenGL11.glEnable(OpenGL11.GL_DEPTH_TEST);
             //OpenGL11.glEnable(OpenGL11.GL_ALPHA_TEST);
-            OpenGL11.glCullFace(OpenGL11.GL_BACK);
-            OpenGL11.glFrontFace(OpenGL11.GL_CW);
+            OpenGL11.glCullFace(OpenGL11.GL_FRONT);
             OpenGL11.glBlendFunc(OpenGL11.GL_SRC_ALPHA, OpenGL11.GL_ONE_MINUS_SRC_ALPHA);
             //OpenGL11.glDepthFunc(OpenGL11.GL_GEQUAL);
             //OpenGL11.glAlphaFunc(OpenGL11.GL_GREATER, 0.5f);
@@ -173,6 +173,7 @@ namespace Lamby2D.Drawing
             OpenGL11.glEnableClientState(OpenGL11.GL_TEXTURE_COORD_ARRAY);
             OpenGL11.glVertexPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
             OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
+            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
         }
     }
 }
