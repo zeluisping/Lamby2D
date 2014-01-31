@@ -7,10 +7,11 @@ using Lamby2D;
 using Lamby2D.Core;
 using Lamby2D.Drawing;
 using Lamby2D.Input;
+using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class Cursor : GameObject, IStaticDrawable
+    class Cursor : GameObject, IStaticDrawable, IPhysicsObject
     {
         // Static variables
         static readonly Texture2D CursorTexture = Game.Current.Graphics.CreateTexture("cursor.png");
@@ -39,6 +40,8 @@ namespace DemoLamby2D
                 }
             }
         }
+        public CollisionPrimitive Collider { get; set; }
+        public bool IsSolid { get; set; }
 
         // Events
         public event ZIndexChangedEventHandler ZIndexChanged;
@@ -47,6 +50,16 @@ namespace DemoLamby2D
         private void Input_MouseMotion(object sender, MouseMotionEventArgs e)
         {
             this.Position = Game.Current.Graphics.ScreenToWorld(e.Position);
+        }
+
+        // Public
+        public bool Intersects(IPhysicsObject other)
+        {
+            return GamePhysics.Intersects(this, other);
+        }
+        public bool Encompasses(IPhysicsObject other)
+        {
+            return false;
         }
 
         // Constructors

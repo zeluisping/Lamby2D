@@ -7,6 +7,7 @@ using Lamby2D.Core;
 using Lamby2D.Drawing;
 using Lamby2D.Input;
 using System.Diagnostics;
+using Lamby2D.Physics;
 
 namespace Lamby2D
 {
@@ -23,6 +24,7 @@ namespace Lamby2D
         // Properties
         public Graphics Graphics { get; private set; }
         public GameInput Input { get; private set; }
+        public GamePhysics Physics { get; private set; }
 
         // Handlers
         /*private void staticdrawable_ZIndexChanged(object sender, ZIndexChangedEventArgs e)
@@ -116,6 +118,11 @@ namespace Lamby2D
             if (obj is IClickable) {
                 this.Input.Clickables.Add(obj as IClickable);
             }
+
+            // Physics
+            if (obj is IPhysicsObject) {
+                this.Physics.PhysicsObjects.Add(obj as IPhysicsObject);
+            }
         }
         internal void UnRegisterGameObject(GameObject obj)
         {
@@ -135,6 +142,11 @@ namespace Lamby2D
             // Input
             if (obj is IClickable) {
                 this.Input.Clickables.Remove(obj as IClickable);
+            }
+
+            // Physics
+            if (obj is IPhysicsObject) {
+                this.Physics.PhysicsObjects.Remove(obj as IPhysicsObject);
             }
         }
 
@@ -156,6 +168,7 @@ namespace Lamby2D
 
             this.Graphics = new Graphics();
             this.Input = new GameInput();
+            this.Physics = new GamePhysics();
         }
     }
 }
