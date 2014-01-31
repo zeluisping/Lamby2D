@@ -18,6 +18,14 @@ namespace DemoLamby2D
         ImageGameObject imagegameobject;
         Cursor cursor;
 
+        // Handlers
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == KeyCode.Escape) {
+                Quit();
+            }
+        }
+
         // Public
         public override void Update(float DeltaTime)
         {
@@ -41,7 +49,8 @@ namespace DemoLamby2D
             this.Graphics.BackgroundColor = Colors.Orange;
             this.Graphics.GraphicsContext.Resize(640, 360);
             this.Graphics.GraphicsContext.Title = "Demo Game";
-            this.Graphics.GraphicsContext.ShowCursor = false;            
+            this.Graphics.GraphicsContext.ShowCursor = false;
+            this.Input.KeyDown += Input_KeyDown;
 
             cursor = new Cursor();
 

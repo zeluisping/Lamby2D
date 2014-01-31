@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Lamby2D.Core;
 using Lamby2D.Drawing;
 using Lamby2D.Input;
+using System.Diagnostics;
 
 namespace Lamby2D
 {
@@ -16,8 +17,8 @@ namespace Lamby2D
 
         // Variables
         List<ITickable> _tickables;
-        //SortedList<int, IStaticDrawable> _staticdrawables;
         List<IStaticDrawable> _staticdrawables;
+        bool _quit;
 
         // Properties
         public Graphics Graphics { get; private set; }
@@ -33,22 +34,37 @@ namespace Lamby2D
         // Public
         public void MainLoop()
         {
-            DateTime lasttick = DateTime.UtcNow;
+            Stopwatch timer = new Stopwatch();
+            //DateTime lasttick = DateTime.UtcNow;
 
+            timer.Start();
             while (Graphics.GraphicsContext.Window != null) {
+                if (_quit == true) {
+                    return;
+                }
+
                 this.Input.Update(); // resets deltas
                 this.Graphics.GraphicsContext.Window.PollMessages();
 
-                if (this.Graphics.GraphicsContext.Window == null) {
+                if (this.Graphics.GraphicsContext.Window == null || _quit == true) {
                     break;
                 }
 
-                float dt = (float) (DateTime.UtcNow - lasttick).TotalSeconds;
-                lasttick = DateTime.UtcNow;
+                //float dt = (float) (DateTime.UtcNow - lasttick).TotalSeconds;
+                //lasttick = DateTime.UtcNow;
+                float dt = (float) timer.Elapsed.TotalSeconds;
+                timer.Restart();
 
                 this.Update(dt);
+                if (_quit == true) {
+                    return;
+                }
+
                 foreach (ITickable tickable in _tickables) {
                     tickable.Update(dt);
+                    if (_quit == true) {
+                        return;
+                    }
                 }
 
                 this.Graphics.Clear();
@@ -73,6 +89,10 @@ namespace Lamby2D
             this.Graphics.Dispose();
             this.Graphics = null;
             this.Cleanup();
+        }
+        public void Quit()
+        {
+            _quit = true;
         }
 
         // Internal
