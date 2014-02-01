@@ -14,7 +14,6 @@ namespace Lamby2D.Drawing
     public class Graphics : IDisposable
     {
         // Variables
-        Color _backgroundcolor;
         readonly float[] _vertexdata = new float[6 * 2]
         {
             0, 0,
@@ -24,7 +23,7 @@ namespace Lamby2D.Drawing
             0, 1,
             0, 0,
         };
-        float[,] _texcoords = new float[6, 2]
+        readonly float[,] _texcoords = new float[6, 2]
         {
             { 0, 0 },
             { 1, 0 },
@@ -33,7 +32,8 @@ namespace Lamby2D.Drawing
             { 0, 1 },
             { 0, 0 },
         };
-        List<Texture2D> _textures;
+        Color _backgroundcolor;
+        PolygonMode _polygonmode;
 
         // Properties
         public GraphicsContext GraphicsContext { get; private set; }
@@ -45,6 +45,17 @@ namespace Lamby2D.Drawing
                 if (_backgroundcolor != value) {
                     _backgroundcolor = value;
                     OpenGL11.glClearColor(value.R, value.G, value.B, value.A);
+                }
+            }
+        }
+        public PolygonMode PolygonMode
+        {
+            get { return _polygonmode; }
+            set
+            {
+                if (_polygonmode != value) {
+                    _polygonmode = value;
+                    OpenGL11.glPolygonMode(OpenGL11.GL_FRONT_AND_BACK, (uint) value);
                 }
             }
         }
@@ -72,7 +83,6 @@ namespace Lamby2D.Drawing
             OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, 0);
 
             Texture2D result = new Texture2D(textures[0]) { Width = (int) width, Height = (int) height };
-            _textures.Add(result);
             return result;
         }
         public Texture2D CreateTexture(string filename)
@@ -138,25 +148,15 @@ namespace Lamby2D.Drawing
             OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
             OpenGL11.glPushMatrix();
             OpenGL11.glTranslatef(position.X, position.Y, 0);
-            OpenGL11.glBegin(OpenGL11.GL_LINE_LOOP);
+            OpenGL11.glBegin(OpenGL11.GL_TRIANGLE_FAN);
             int steps = (int) (radius * 2 / 3);
             double angle = 0;
             double anglestep = Math.PI * 2 / steps;
+            OpenGL11.glVertex2f(0, 0);
             for (int step = 0; step <= steps; step++) {
                 OpenGL11.glVertex2f((float) Math.Cos(angle) * radius, (float) Math.Sin(angle) * radius);
                 angle += anglestep;
             }
-            /*OpenGL11.glVertex2f(-radius, 0);
-            OpenGL11.glVertex2f(0, -radius);
-            OpenGL11.glVertex2f(radius, 0);
-            OpenGL11.glVertex2f(0, radius);*/
-            /*
-            OpenGL11.glVertex2f(position.X, position.Y
-            OpenGL11.glVertex2f(position.X - radius, position.Y);
-            OpenGL11.glVertex2f(position.X, position.Y - radius);
-            OpenGL11.glVertex2f(position.X + radius, position.Y);
-            OpenGL11.glVertex2f(position.X, position.Y + radius);
-            */
             OpenGL11.glEnd();
             OpenGL11.glPopMatrix();
             OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
@@ -177,9 +177,8 @@ namespace Lamby2D.Drawing
 
             this.GraphicsContext = new GraphicsContext();
             this.BackgroundColor = Colors.Black;
+            this.PolygonMode = PolygonMode.Fill;
             this.GraphicsContext.Window.Show();
-
-            _textures = new List<Texture2D>();
 
             OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
             OpenGL11.glLoadIdentity();

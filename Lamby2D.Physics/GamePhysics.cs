@@ -30,7 +30,10 @@ namespace Lamby2D.Physics
                 Vector2 b_min = new Vector2(b.Position.X, b.Position.Y);
                 Vector2 b_max = new Vector2(b.Position.X + second.Width, b.Position.Y + second.Height);
 
-                if (a_min.Y >= b_min.Y && a_min.Y <= bmax.Y))
+                //if (a_min.Y >= b_min.Y && a_min.Y <= bmax.Y))
+                if (a_min.X >= b_min.X && a_min.X <= b_max.X && a_min.Y >= b_min.Y && a_min.Y <= b_max.Y) {
+                    return true;
+                }
             }
 
             throw new NotImplementedException("Missing intersects for pair (" + a.GetType().FullName + ", " + b.GetType().FullName + ").");

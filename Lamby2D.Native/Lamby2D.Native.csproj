@@ -56,6 +56,11 @@
     <Compile Include="WindowMessages.cs" />
     <Compile Include="WindowStyles.cs" />
     <Compile Include="WindowStylesEx.cs" />
+    <Compile Include="WinMM\JoystickDeviceCapabilities.cs" />
+    <Compile Include="WinMM\JoystickError.cs" />
+    <Compile Include="WinMM\JoystickCapabilities.cs" />
+    <Compile Include="WinMM\JoystickInfoEx.cs" />
+    <Compile Include="WinMM\WinMM.cs" />
     <Compile Include="WNDCLASSEX.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

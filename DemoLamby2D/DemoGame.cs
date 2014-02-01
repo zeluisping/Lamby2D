@@ -39,8 +39,11 @@ namespace DemoLamby2D
         {
             // stuff drawn here is on top of everything else
             this.Graphics.Draw(cursor);
+
+            this.Graphics.PolygonMode = PolygonMode.Line;
             this.Graphics.DrawCircle(cursor.Position, ((CollisionCircle) cursor.Collider).Radius);
             this.Graphics.DrawCircle(imagegameobject.Position, ((CollisionCircle) imagegameobject.Collider).Radius);
+            this.Graphics.PolygonMode = PolygonMode.Fill;
         }
 
         // Protected
