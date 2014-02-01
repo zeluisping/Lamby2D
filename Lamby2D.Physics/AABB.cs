@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lamby2D.Physics
 {
+    [Obsolete("not implemented")]
     public class AABB : CollisionPrimitive
     {
         // Variables
