@@ -14,10 +14,6 @@ namespace Lamby2D.Physics
         /// </summary>
         CollisionPrimitive Collider { get; }
         /// <summary>
-        /// Gets whether or not we can be inside this primitive.
-        /// </summary>
-        bool IsSolid { get; set; }
-        /// <summary>
         /// Gets/sets the position of the primitive.
         /// </summary>
         Vector2 Position { get; set; }

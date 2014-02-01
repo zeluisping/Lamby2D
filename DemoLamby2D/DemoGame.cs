@@ -8,6 +8,7 @@ using Lamby2D;
 using Lamby2D.Core;
 using Lamby2D.Drawing;
 using Lamby2D.Input;
+using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
@@ -30,10 +31,16 @@ namespace DemoLamby2D
         public override void Update(float DeltaTime)
         {
         }
+        public override void PostUpdate(float DeltaTime)
+        {
+            this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject)) ? "Intersects" : "Demo Game";
+        }
         public override void PostDraw()
         {
             // stuff drawn here is on top of everything else
             this.Graphics.Draw(cursor);
+            this.Graphics.DrawCircle(cursor.Position, ((CollisionCircle) cursor.Collider).Radius);
+            this.Graphics.DrawCircle(imagegameobject.Position, ((CollisionCircle) imagegameobject.Collider).Radius);
         }
 
         // Protected

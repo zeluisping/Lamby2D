@@ -69,6 +69,11 @@ namespace Lamby2D
                     }
                 }
 
+                this.PostUpdate(dt);
+                if (_quit == true) {
+                    return;
+                }
+
                 this.Graphics.Clear();
                 _staticdrawables.Sort((a, b) => a.ZIndex - b.ZIndex);
                 foreach (IStaticDrawable drawable in _staticdrawables) {
@@ -81,6 +86,9 @@ namespace Lamby2D
             }
         }
         public virtual void Update(float DeltaTime)
+        {
+        }
+        public virtual void PostUpdate(float DeltaTime)
         {
         }
         public virtual void PostDraw()

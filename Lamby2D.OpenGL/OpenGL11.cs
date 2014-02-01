@@ -241,7 +241,15 @@ namespace Lamby2D.OpenGL
         [DllImport(DllName)]
         public static extern uint glGenLists(int range);
         [DllImport(DllName)]
-        public static extern uint glGenTextures(int n, uint[] textures);
+        public static extern uint glGenTextures(int n, uint[] textures);        
+        #endregion
+        #region Immediate Mode
+        [DllImport(DllName)]
+        public static extern void glVertex2f(float x, float y);
+        [DllImport(DllName)]
+        public static extern void glBegin(uint mode);
+        [DllImport(DllName)]
+        public static extern void glEnd();
         #endregion
 
         // Public static

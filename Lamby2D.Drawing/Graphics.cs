@@ -133,6 +133,34 @@ namespace Lamby2D.Drawing
             }
             return new Point((int) world.X, (int) world.Y);
         }
+        public void DrawCircle(Vector2 position, float radius)
+        {
+            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL11.glPushMatrix();
+            OpenGL11.glTranslatef(position.X, position.Y, 0);
+            OpenGL11.glBegin(OpenGL11.GL_LINE_LOOP);
+            int steps = (int) (radius * 2 / 3);
+            double angle = 0;
+            double anglestep = Math.PI * 2 / steps;
+            for (int step = 0; step <= steps; step++) {
+                OpenGL11.glVertex2f((float) Math.Cos(angle) * radius, (float) Math.Sin(angle) * radius);
+                angle += anglestep;
+            }
+            /*OpenGL11.glVertex2f(-radius, 0);
+            OpenGL11.glVertex2f(0, -radius);
+            OpenGL11.glVertex2f(radius, 0);
+            OpenGL11.glVertex2f(0, radius);*/
+            /*
+            OpenGL11.glVertex2f(position.X, position.Y
+            OpenGL11.glVertex2f(position.X - radius, position.Y);
+            OpenGL11.glVertex2f(position.X, position.Y - radius);
+            OpenGL11.glVertex2f(position.X + radius, position.Y);
+            OpenGL11.glVertex2f(position.X, position.Y + radius);
+            */
+            OpenGL11.glEnd();
+            OpenGL11.glPopMatrix();
+            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+        }
 
         // Private
         void draw(Texture2D texture)

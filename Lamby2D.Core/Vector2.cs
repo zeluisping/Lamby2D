@@ -128,6 +128,10 @@ namespace Lamby2D.Core
             float yy = _y - y;
             return (float) Math.Sqrt(xx * xx + yy * yy);
         }
+        public bool IsNaN()
+        {
+            return (this.X != this.X || this.Y != this.Y);
+        }
 
         // Constructors
         public Vector2(float xy)

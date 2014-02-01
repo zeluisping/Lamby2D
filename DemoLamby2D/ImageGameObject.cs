@@ -7,10 +7,11 @@ using Lamby2D;
 using Lamby2D.Core;
 using Lamby2D.Drawing;
 using Lamby2D.Input;
+using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class ImageGameObject : GameObject, IStaticDrawable, IClickable, ITickable
+    class ImageGameObject : GameObject, IStaticDrawable, IClickable, ITickable, IPhysicsObject
     {
         // Variables
         int _zindex;
@@ -37,6 +38,8 @@ namespace DemoLamby2D
             }
         }
         public bool IsHitTestVisible { get; set; }
+        public CollisionPrimitive Collider { get; set; }
+        public bool IsSolid { get; set; }
 
         // Events
         public event MouseButtonEventHandler Clicked;
@@ -50,9 +53,9 @@ namespace DemoLamby2D
             }
         }
         public bool ClickHitTest(Point position, MouseButton button)
-        {            
+        {
             Vector2 world = Game.Current.Graphics.ScreenToWorld(position);
-            if (world == Vector2.NaN) {
+            if (world.IsNaN() == false) {
                 return false;
             }
 
@@ -63,7 +66,7 @@ namespace DemoLamby2D
         }
         public void Update(float DeltaTime)
         {
-            float speed = 110.0f;
+            float speed = 200.0f;
 
             if (Game.Current.Input.IsKeyDown(KeyCode.A) == true) {
                 this.Position -= new Vector2(speed * DeltaTime * 0.5f, 0);
@@ -85,6 +88,7 @@ namespace DemoLamby2D
             this.IsVisible = true; // change default value to true
             this.IsHitTestVisible = true; // same as above
             this.Scale = Vector2.One;
-        }        
+            this.Collider = new CollisionCircle(256);
+        }
     }
 }

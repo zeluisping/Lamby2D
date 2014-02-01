@@ -52,16 +52,6 @@ namespace DemoLamby2D
             this.Position = Game.Current.Graphics.ScreenToWorld(e.Position);
         }
 
-        // Public
-        public bool Intersects(IPhysicsObject other)
-        {
-            return GamePhysics.Intersects(this, other);
-        }
-        public bool Encompasses(IPhysicsObject other)
-        {
-            return false;
-        }
-
         // Constructors
         public Cursor()
         {
@@ -69,6 +59,7 @@ namespace DemoLamby2D
             this.Texture = Cursor.CursorTexture;
             this.Scale = Vector2.One;
             this.ZIndex = 1;
+            this.Collider = new CollisionCircle(16);
 
             Game.Current.Input.MouseMotion += Input_MouseMotion;
         }

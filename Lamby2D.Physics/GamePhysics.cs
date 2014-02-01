@@ -17,24 +17,23 @@ namespace Lamby2D.Physics
             }
 
             if (a.Collider is CollisionCircle && b.Collider is CollisionCircle) {
-                return GamePhysics.IntersectsCircleCircle(a.Position, a.Collider as CollisionCircle, b.Position, b.Collider as CollisionCircle, a.IsSolid | b.IsSolid);
+                CollisionCircle first = (CollisionCircle) a.Collider;
+                CollisionCircle second = (CollisionCircle) b.Collider;
+
+                return (a.Position.Distance(b.Position) < first.Radius + second.Radius);
+            } else if (a.Collider is AABB && b.Collider is AABB) {
+                AABB first = (AABB) a.Collider;
+                AABB second = (AABB) b.Collider;
+
+                Vector2 a_min = new Vector2(a.Position.X, a.Position.Y);
+                Vector2 a_max = new Vector2(a.Position.X + first.Width, a.Position.Y + first.Height);
+                Vector2 b_min = new Vector2(b.Position.X, b.Position.Y);
+                Vector2 b_max = new Vector2(b.Position.X + second.Width, b.Position.Y + second.Height);
+
+                if (a_min.Y >= b_min.Y && a_min.Y <= bmax.Y))
             }
 
             throw new NotImplementedException("Missing intersects for pair (" + a.GetType().FullName + ", " + b.GetType().FullName + ").");
-        }
-
-        // Static
-        static bool IntersectsCircleCircle(Vector2 a_pos, CollisionCircle a, Vector2 b_pos, CollisionCircle b, bool anysolid)
-        {
-            if (anysolid == true) {
-                return (a_pos.Distance(b_pos) < a.Radius + b.Radius);
-            } else if (a.Radius > b.Radius) {
-                float distance = a_pos.Distance(b_pos);
-                return (distance < a.Radius + b.Radius && distance + b.Radius < a.Radius);
-            } else {
-                float distance = a_pos.Distance(b_pos);
-                return (distance < a.Radius + b.Radius && distance + a.Radius < b.Radius);
-            }
         }
 
         // Variables
