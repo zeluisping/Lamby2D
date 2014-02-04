@@ -26,25 +26,10 @@ namespace DemoLamby2D
         public Vector2 Scale { get; set; }
         public float Rotation { get; set; }
         public bool IsVisible { get; set; }
-        public int ZIndex
-        {
-            get { return _zindex; }
-            set
-            {
-                if (_zindex != value) {
-                    int old = _zindex;
-                    _zindex = value;
-                    if (this.ZIndexChanged != null) {
-                        this.ZIndexChanged(this, new ZIndexChangedEventArgs(old, value));
-                    }
-                }
-            }
-        }
+        public int ZIndex { get; set; }
         public CollisionPrimitive Collider { get; set; }
         public bool IsSolid { get; set; }
-
-        // Events
-        public event ZIndexChangedEventHandler ZIndexChanged;
+        public Color Color { get; set; }
 
         // Handlers
         private void Input_MouseMotion(object sender, MouseMotionEventArgs e)
@@ -60,6 +45,7 @@ namespace DemoLamby2D
             this.Scale = Vector2.One;
             this.ZIndex = 1;
             this.Collider = new CollisionCircle(16);
+            this.Color = Colors.White;
 
             Game.Current.Input.MouseMotion += Input_MouseMotion;
         }

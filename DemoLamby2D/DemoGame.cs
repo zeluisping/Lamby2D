@@ -71,9 +71,12 @@ namespace DemoLamby2D
                 Texture = texture,
                 Rotation = 90,
             };
-            imagegameobject.Clicked += delegate {
+            imagegameobject.MouseDown += delegate {
                 imagegameobject.Position = new Vector2();
             };
+            /*imagegameobject.Clicked += delegate {
+                imagegameobject.Position = new Vector2();
+            };*/
         }
     }
 }

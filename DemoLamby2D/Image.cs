@@ -21,15 +21,14 @@ namespace DemoLamby2D
         public Vector2 Scale { get; set; }
         public bool IsVisible { get; set; }
         public int ZIndex { get; set; }
+        public Color Color { get; set; }
 
         // Constructors
         public Image(Texture2D texture)
         {
             this.Texture = texture;
             this.Scale = Vector2.One;
+            this.Color = Colors.White;
         }
-
-
-        public event ZIndexChangedEventHandler ZIndexChanged;
     }
 }

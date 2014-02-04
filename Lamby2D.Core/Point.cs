@@ -55,8 +55,8 @@ namespace Lamby2D.Core
         }
 
         // Variables
-        int _x;
-        int _y;
+        private int _x;
+        private int _y;
 
         // Properties
         public int X

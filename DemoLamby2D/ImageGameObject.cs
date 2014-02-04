@@ -11,11 +11,8 @@ using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class ImageGameObject : GameObject, IStaticDrawable, IClickable, ITickable, IPhysicsObject
+    class ImageGameObject : GameObject, IStaticDrawable, IMouseAware, ITickable, IPhysicsObject
     {
-        // Variables
-        int _zindex;
-
         // Properties
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
@@ -23,39 +20,23 @@ namespace DemoLamby2D
         public Vector2 Scale { get; set; }
         public float Rotation { get; set; }
         public bool IsVisible { get; set; }
-        public int ZIndex
-        {
-            get { return _zindex; }
-            set
-            {
-                if (_zindex != value) {
-                    int old = _zindex;
-                    _zindex = value;
-                    if (this.ZIndexChanged != null) {
-                        this.ZIndexChanged(this, new ZIndexChangedEventArgs(old, value));
-                    }
-                }
-            }
-        }
+        public int ZIndex { get; set; }
         public bool IsHitTestVisible { get; set; }
         public CollisionPrimitive Collider { get; set; }
         public bool IsSolid { get; set; }
+        public Color Color { get; set; }
 
         // Events
-        public event MouseButtonEventHandler Clicked;
-        public event ZIndexChangedEventHandler ZIndexChanged;
+        public event MouseButtonEventHandler MouseDown;
+        public event MouseButtonEventHandler MouseUp;
+        public event MouseMotionEventHandler MouseEnter;
+        public event MouseMotionEventHandler MouseLeave;
 
         // Public
-        public virtual void OnClick(MouseButton button, Point position)
-        {
-            if (this.Clicked != null) {
-                this.Clicked(this, new MouseButtonEventArgs(button, position));
-            }
-        }
-        public bool ClickHitTest(Point position, MouseButton button)
+        public bool MouseHitTest(Point position)
         {
             Vector2 world = Game.Current.Graphics.ScreenToWorld(position);
-            if (world.IsNaN() == false) {
+            if (world.IsNaN() == true) {
                 return false;
             }
 
@@ -63,6 +44,32 @@ namespace DemoLamby2D
                     world.X <= this.Position.X - this.Center.X * this.Scale.X * this.Texture.Width + this.Texture.Width * this.Scale.X &&
                     world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height &&
                     world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height + this.Texture.Height * this.Scale.Y);
+        }
+        public void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (this.MouseDown != null) {
+                this.MouseDown(this, e);
+            }
+        }
+        public void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (this.MouseUp != null) {
+                this.MouseUp(this, e);
+            }
+        }
+        public void OnMouseEnter(MouseMotionEventArgs e)
+        {
+            this.Color = new Color(1.0f, 0.25f);
+            if (this.MouseEnter != null) {
+                this.MouseEnter(this, e);
+            }
+        }
+        public void OnMouseLeave(MouseMotionEventArgs e)
+        {
+            this.Color = Colors.White;
+            if (this.MouseEnter != null) {
+                this.MouseEnter(this, e);
+            }
         }
         public void Update(float DeltaTime)
         {
@@ -89,6 +96,7 @@ namespace DemoLamby2D
             this.IsHitTestVisible = true; // same as above
             this.Scale = Vector2.One;
             this.Collider = new CollisionCircle(256);
+            this.Color = Colors.White;
         }
     }
 }

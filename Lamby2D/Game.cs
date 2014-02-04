@@ -123,8 +123,8 @@ namespace Lamby2D
             }
 
             // Input
-            if (obj is IClickable) {
-                this.Input.Clickables.Add(obj as IClickable);
+            if (obj is IMouseAware) {
+                this.Input.MouseAwares.Add(obj as IMouseAware);
             }
 
             // Physics
@@ -148,8 +148,8 @@ namespace Lamby2D
             }
 
             // Input
-            if (obj is IClickable) {
-                this.Input.Clickables.Remove(obj as IClickable);
+            if (obj is IMouseAware) {
+                this.Input.MouseAwares.Remove(obj as IMouseAware);
             }
 
             // Physics

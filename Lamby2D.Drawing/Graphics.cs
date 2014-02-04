@@ -132,7 +132,9 @@ namespace Lamby2D.Drawing
 
             OpenGL11.glRotatef(drawable.Rotation, 0, 0, 1);
             OpenGL11.glTranslatef(-drawable.Center.X, -drawable.Center.Y, 0);
+            OpenGL11.glColor4f(drawable.Color.R, drawable.Color.G, drawable.Color.B, drawable.Color.A);
             draw(drawable.Texture);
+            OpenGL11.glColor4f(this.DrawColor.R, this.DrawColor.G, this.DrawColor.B, this.DrawColor.A);
             OpenGL11.glPopMatrix();
         }
         public Vector2 ScreenToWorld(Point screen)

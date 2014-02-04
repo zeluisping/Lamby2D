@@ -56,8 +56,8 @@ namespace Lamby2D.Core
         }
 
         // Variables
-        float _x;
-        float _y;
+        private float _x;
+        private float _y;
 
         // Properties
         public float X

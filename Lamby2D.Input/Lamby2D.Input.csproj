@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IClickable.cs" />
+    <Compile Include="IMouseAware.cs" />
     <Compile Include="KeyCode.cs" />
     <Compile Include="KeyEventArgs.cs" />
     <Compile Include="MouseButton.cs" />

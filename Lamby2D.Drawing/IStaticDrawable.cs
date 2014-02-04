@@ -19,7 +19,8 @@ namespace Lamby2D.Drawing
         float Rotation { get; }
         bool IsVisible { get; }
         int ZIndex { get; }
+        Color Color { get; }
 
-        event ZIndexChangedEventHandler ZIndexChanged;
+        //event ZIndexChangedEventHandler ZIndexChanged;
     }
 }

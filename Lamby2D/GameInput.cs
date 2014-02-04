@@ -15,7 +15,8 @@ namespace Lamby2D
         bool[] _mousestates;
         Point _mousepos;
         Point _mousedelta;
-        List<IClickable> _clickables;
+        List<IMouseAware> _mouseawares;
+        IMouseAware _mouseawarehover;
 
         // Properties
         public Point MousePosition
@@ -26,9 +27,9 @@ namespace Lamby2D
         {
             get { return _mousedelta; }
         }
-        internal List<IClickable> Clickables
+        internal List<IMouseAware> MouseAwares
         {
-            get { return _clickables; }
+            get { return _mouseawares; }
         }
 
         // Events
@@ -63,19 +64,19 @@ namespace Lamby2D
             }
 
             if (e.Handled == false) {
-                IClickable clicked = null;
-                foreach (IClickable clickable in _clickables) {
-                    if (clickable.IsHitTestVisible == true && clickable.ClickHitTest(e.Position, e.Button) == true) {
-                        clicked = (clicked == null
-                                        ? clickable
-                                        : clickable.ZIndex > clicked.ZIndex
-                                                ? clickable
-                                                : clicked);
+                IMouseAware handler = null;
+                foreach (IMouseAware aware in _mouseawares) {
+                    if (aware.IsHitTestVisible == true && aware.MouseHitTest(e.Position) == true) {
+                        handler = (handler == null
+                                        ? aware
+                                        : aware.ZIndex > handler.ZIndex
+                                                ? aware
+                                                : handler);
                     }
                 }
 
-                if (clicked != null) {
-                    clicked.OnClick(e.Button, e.Position);
+                if (handler != null) {
+                    handler.OnMouseDown(new MouseButtonEventArgs(e.Button, e.Position));
                 }
             }
         }
@@ -85,6 +86,23 @@ namespace Lamby2D
             if (this.MouseUp != null) {
                 this.MouseUp(this, e);
             }
+
+            if (e.Handled == false) {
+                IMouseAware handler = null;
+                foreach (IMouseAware aware in _mouseawares) {
+                    if (aware.IsHitTestVisible == true && aware.MouseHitTest(e.Position) == true) {
+                        handler = (handler == null
+                                        ? aware
+                                        : aware.ZIndex > handler.ZIndex
+                                                ? aware
+                                                : handler);
+                    }
+                }
+
+                if (handler != null) {
+                    handler.OnMouseUp(new MouseButtonEventArgs(e.Button, e.Position));
+                }
+            }
         }
         private void Window_MouseMotion(object sender, MouseMotionEventArgs e)
         {
@@ -92,6 +110,27 @@ namespace Lamby2D
             _mousepos = e.Position;
             if (this.MouseMotion != null) {
                 this.MouseMotion(this, e);
+            }
+
+            IMouseAware handler = null;
+            foreach (IMouseAware aware in _mouseawares) {
+                if (aware.IsHitTestVisible == true && aware.MouseHitTest(e.Position) == true) {
+                    handler = (handler == null
+                                    ? aware
+                                    : aware.ZIndex > handler.ZIndex
+                                            ? aware
+                                            : handler);
+                }
+            }
+
+            if (handler != _mouseawarehover) {
+                if (_mouseawarehover != null) {
+                    _mouseawarehover.OnMouseLeave(e);
+                }
+                _mouseawarehover = handler;
+                if (handler != null) {
+                    handler.OnMouseEnter(e);
+                }
             }
         }
 
@@ -119,7 +158,7 @@ namespace Lamby2D
         {
             _keystates = new bool[255];
             _mousestates = new bool[5];
-            _clickables = new List<IClickable>();
+            _mouseawares = new List<IMouseAware>();
 
             Game.Current.Graphics.GraphicsContext.Window.KeyDown += Window_KeyDown;
             Game.Current.Graphics.GraphicsContext.Window.KeyUp += Window_KeyUp;
