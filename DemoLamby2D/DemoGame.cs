@@ -33,7 +33,7 @@ namespace DemoLamby2D
         }
         public override void PostUpdate(float DeltaTime)
         {
-            this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject)) ? "Intersects" : "Demo Game";
+            this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject) ? "Intersects" : "Demo Game");
         }
         public override void PostDraw()
         {
@@ -71,8 +71,7 @@ namespace DemoLamby2D
                 Texture = texture,
                 Rotation = 90,
             };
-            imagegameobject.Clicked += delegate
-            {
+            imagegameobject.Clicked += delegate {
                 imagegameobject.Position = new Vector2();
             };
         }

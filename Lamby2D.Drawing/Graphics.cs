@@ -23,17 +23,9 @@ namespace Lamby2D.Drawing
             0, 1,
             0, 0,
         };
-        readonly float[,] _texcoords = new float[6, 2]
-        {
-            { 0, 0 },
-            { 1, 0 },
-            { 1, 1 },
-            { 1, 1 },
-            { 0, 1 },
-            { 0, 0 },
-        };
         Color _backgroundcolor;
         PolygonMode _polygonmode;
+        Color _drawcolor;
 
         // Properties
         public GraphicsContext GraphicsContext { get; private set; }
@@ -56,6 +48,17 @@ namespace Lamby2D.Drawing
                 if (_polygonmode != value) {
                     _polygonmode = value;
                     OpenGL11.glPolygonMode(OpenGL11.GL_FRONT_AND_BACK, (uint) value);
+                }
+            }
+        }
+        public Color DrawColor
+        {
+            get { return _drawcolor; }
+            set
+            {
+                if (_drawcolor != value) {
+                    _drawcolor = value;
+                    OpenGL11.glColor4f(value.R, value.G, value.B, value.A);
                 }
             }
         }
@@ -161,12 +164,22 @@ namespace Lamby2D.Drawing
             OpenGL11.glPopMatrix();
             OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
         }
+        public void DrawRectangle(Vector2 position, float rotation, float width, float height)
+        {
+            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL11.glPushMatrix();
+            OpenGL11.glTranslatef(position.X, position.Y, 0);
+            OpenGL11.glScalef(width, height, 1);
+            OpenGL11.glRotatef(rotation, 0, 0, 1);
+            OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
+            OpenGL11.glPopMatrix();
+            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+        }
 
         // Private
         void draw(Texture2D texture)
         {
             OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (texture == null ? 0 : texture.ID));
-            //OpenGL11.glDrawElements(OpenGL11.GL_TRIANGLES, 6, OpenGL11.GL_UNSIGNED_INT, IntPtr.Zero);//Marshal.UnsafeAddrOfPinnedArrayElement(_indices, 0));
             OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
         }
 
@@ -178,6 +191,7 @@ namespace Lamby2D.Drawing
             this.GraphicsContext = new GraphicsContext();
             this.BackgroundColor = Colors.Black;
             this.PolygonMode = PolygonMode.Fill;
+            this.DrawColor = Colors.White;
             this.GraphicsContext.Window.Show();
 
             OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
