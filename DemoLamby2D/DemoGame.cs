@@ -18,12 +18,15 @@ namespace DemoLamby2D
         Texture2D texture;
         ImageGameObject imagegameobject;
         Cursor cursor;
+        bool debugcolliders = false;
 
         // Handlers
         private void Input_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == KeyCode.Escape) {
                 Quit();
+            } else if (e.Key == KeyCode.B) {
+                debugcolliders = !debugcolliders;
             }
         }
 
@@ -33,17 +36,19 @@ namespace DemoLamby2D
         }
         public override void PostUpdate(float DeltaTime)
         {
-            this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject) ? "Intersects" : "Demo Game");
+            this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject) ? "Intersects" : "FPS: " + this.FramesPerSecond);
         }
         public override void PostDraw()
         {
             // stuff drawn here is on top of everything else
             this.Graphics.Draw(cursor);
 
-            this.Graphics.PolygonMode = PolygonMode.Line;
-            this.Graphics.DrawCircle(cursor.Position, ((CollisionCircle) cursor.Collider).Radius);
-            this.Graphics.DrawCircle(imagegameobject.Position, ((CollisionCircle) imagegameobject.Collider).Radius);
-            this.Graphics.PolygonMode = PolygonMode.Fill;
+            if (debugcolliders == true) {
+                this.Graphics.PolygonMode = PolygonMode.Line;
+                this.Graphics.DrawCircle(cursor.Position, ((CollisionCircle) cursor.Collider).Radius);
+                this.Graphics.DrawCircle(imagegameobject.Position, ((CollisionCircle) imagegameobject.Collider).Radius);
+                this.Graphics.PolygonMode = PolygonMode.Fill;
+            }
         }
 
         // Protected
@@ -64,19 +69,23 @@ namespace DemoLamby2D
 
             cursor = new Cursor();
 
-            texture = this.Graphics.CreateTexture("texture.png");
+            texture = this.Graphics.CreateTexture("charanim.png");
             imagegameobject = new ImageGameObject() {
                 Center = new Vector2(0.5f),
-                Position = new Vector2(+0.5f),
-                Texture = texture,
-                Rotation = 90,
+                DrawableKind = DrawableKind.Sprite,
+                Sprite = new Sprite(texture, 128, 128),
+                Scale = new Vector2(-0.5f, 0.5f),
             };
+            imagegameobject.Sprite.AddAnimation("Run", new SpriteAnimation(new int[] { 5, 6, 7, 6, 5, 8, 9, 10, 11, 10, 9, 8, }, 15));
+            //imagegameobject.Sprite.PlayAnimation("Run");
+            imagegameobject.Sprite.AddAnimation("Ass", new SpriteAnimation(new int[] { 12,13,14,15,14,13,12 }, 7));
+            //imagegameobject.Sprite.PlayAnimation("Ass");
             imagegameobject.MouseDown += delegate {
                 imagegameobject.Position = new Vector2();
             };
-            /*imagegameobject.Clicked += delegate {
-                imagegameobject.Position = new Vector2();
-            };*/
+            imagegameobject.MouseDown += delegate {
+                imagegameobject.Position = Vector2.Zero;
+            };
         }
     }
 }

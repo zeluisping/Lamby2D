@@ -18,26 +18,21 @@ namespace Lamby2D
 
         // Variables
         List<ITickable> _tickables;
-        List<IStaticDrawable> _staticdrawables;
+        List<IDrawable> _drawables;
         bool _quit;
 
         // Properties
         public Graphics Graphics { get; private set; }
         public GameInput Input { get; private set; }
         public GamePhysics Physics { get; private set; }
-
-        // Handlers
-        /*private void staticdrawable_ZIndexChanged(object sender, ZIndexChangedEventArgs e)
-        {
-            _staticdrawables.Remove(e.OldValue);
-            _staticdrawables.Add(e.NewValue, (IStaticDrawable) sender);
-        }*/
+        public int FramesPerSecond { get; private set; }
 
         // Public
         public void MainLoop()
         {
             Stopwatch timer = new Stopwatch();
-            //DateTime lasttick = DateTime.UtcNow;
+            float fpstime = 0;
+            int fpscounter = 0;
 
             timer.Start();
             while (Graphics.GraphicsContext.Window != null) {
@@ -75,14 +70,30 @@ namespace Lamby2D
                 }
 
                 this.Graphics.Clear();
-                _staticdrawables.Sort((a, b) => a.ZIndex - b.ZIndex);
-                foreach (IStaticDrawable drawable in _staticdrawables) {
-                    if (drawable.IsVisible == true) {
-                        this.Graphics.Draw(drawable);
-                    }
+                _drawables.Sort((a, b) => a.ZIndex - b.ZIndex);
+                foreach (IDrawable drawable in _drawables) {
+                    if (drawable.DrawableKind == DrawableKind.Sprite && drawable.Sprite != null && drawable.Sprite.CurrentAnimation != null) {
+                        drawable.Sprite.NextFrameIn -= dt;
+                        if (drawable.Sprite.NextFrameIn <= 0) {
+                            drawable.Sprite.NextFrameIn = drawable.Sprite._animations[drawable.Sprite.CurrentAnimation].FrameLifeTime;
+                            ++drawable.Sprite.Frame;
+                            if (drawable.Sprite.Frame >= drawable.Sprite._animations[drawable.Sprite.CurrentAnimation].Frames.Length) {
+                                drawable.Sprite.Frame = 0;
+                            } // if
+                        } // if
+                    } // if
+                    this.Graphics.Draw(drawable);
                 }
                 PostDraw();
                 this.Graphics.Flush();
+
+                ++fpscounter;
+                fpstime += dt;
+                if (fpstime >= 1) {
+                    this.FramesPerSecond = (int) (fpscounter / fpstime);
+                    fpscounter = 0;
+                    fpstime = 0;
+                }
             }
         }
         public virtual void Update(float DeltaTime)
@@ -114,9 +125,9 @@ namespace Lamby2D
             }
 
             // Drawing
-            if (obj is IStaticDrawable) {
-                IStaticDrawable staticdrawable = (IStaticDrawable) obj;
-                _staticdrawables.Add(staticdrawable);
+            if (obj is IDrawable) {
+                IDrawable staticdrawable = (IDrawable) obj;
+                _drawables.Add(staticdrawable);
                 //_staticdrawables.Sort((a, b) => a.ZIndex - b.ZIndex);
                 //_staticdrawables.Add(staticdrawable.ZIndex, staticdrawable);
                 //staticdrawable.ZIndexChanged += staticdrawable_ZIndexChanged;
@@ -140,9 +151,9 @@ namespace Lamby2D
             }
 
             // Drawing
-            if (obj is IStaticDrawable) {
-                IStaticDrawable staticdrawable = (IStaticDrawable) obj;
-                _staticdrawables.Remove(staticdrawable);
+            if (obj is IDrawable) {
+                IDrawable staticdrawable = (IDrawable) obj;
+                _drawables.Remove(staticdrawable);
                 //_staticdrawables.Remove(staticdrawable.ZIndex);
                 //staticdrawable.ZIndexChanged -= staticdrawable_ZIndexChanged;
             }
@@ -172,7 +183,7 @@ namespace Lamby2D
             Game.Current = this;
 
             _tickables = new List<ITickable>();
-            _staticdrawables = new List<IStaticDrawable>();
+            _drawables = new List<IDrawable>();
 
             this.Graphics = new Graphics();
             this.Input = new GameInput();

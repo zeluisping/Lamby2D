@@ -39,11 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawableKind.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="GraphicsContext.cs" />
+    <Compile Include="IDrawable.cs" />
     <Compile Include="IStaticDrawable.cs" />
     <Compile Include="PolygonMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="SpriteAnimation.cs" />
+    <Compile Include="SpriteFrame.cs" />
     <Compile Include="Texture2D.cs" />
     <Compile Include="TextureFormat.cs" />
     <Compile Include="Window.cs" />

@@ -93,6 +93,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="charanim.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="cursor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

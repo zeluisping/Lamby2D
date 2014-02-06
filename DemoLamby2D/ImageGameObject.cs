@@ -11,7 +11,7 @@ using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class ImageGameObject : GameObject, IStaticDrawable, IMouseAware, ITickable, IPhysicsObject
+    class ImageGameObject : GameObject, IDrawable, IMouseAware, ITickable, IPhysicsObject
     {
         // Properties
         public Texture2D Texture { get; set; }
@@ -19,12 +19,35 @@ namespace DemoLamby2D
         public Vector2 Center { get; set; }
         public Vector2 Scale { get; set; }
         public float Rotation { get; set; }
-        public bool IsVisible { get; set; }
         public int ZIndex { get; set; }
         public bool IsHitTestVisible { get; set; }
         public CollisionPrimitive Collider { get; set; }
         public bool IsSolid { get; set; }
         public Color Color { get; set; }
+        public DrawableKind DrawableKind { get; set; }
+        public Sprite Sprite { get; set; }
+        public float Width
+        {
+            get
+            {
+                return (this.DrawableKind == DrawableKind.Texture
+                                ? this.Texture.Width
+                                : this.DrawableKind == DrawableKind.Sprite
+                                        ? this.Sprite.Texture.Width
+                                        : 0);
+            }
+        }
+        public float Height
+        {
+            get
+            {
+                return (this.DrawableKind == DrawableKind.Texture
+                                ? this.Texture.Height
+                                : this.DrawableKind == DrawableKind.Sprite
+                                        ? this.Sprite.Texture.Height
+                                        : 0);
+            }
+        }
 
         // Events
         public event MouseButtonEventHandler MouseDown;
@@ -40,10 +63,10 @@ namespace DemoLamby2D
                 return false;
             }
 
-            return (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Texture.Width &&
-                    world.X <= this.Position.X - this.Center.X * this.Scale.X * this.Texture.Width + this.Texture.Width * this.Scale.X &&
-                    world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height &&
-                    world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Texture.Height + this.Texture.Height * this.Scale.Y);
+            return (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Width &&
+                    world.X <= this.Position.X - this.Center.X * this.Scale.X * this.Width + this.Width * this.Scale.X &&
+                    world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height &&
+                    world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height + this.Height * this.Scale.Y);
         }
         public void OnMouseDown(MouseButtonEventArgs e)
         {
@@ -67,8 +90,8 @@ namespace DemoLamby2D
         public void OnMouseLeave(MouseMotionEventArgs e)
         {
             this.Color = Colors.White;
-            if (this.MouseEnter != null) {
-                this.MouseEnter(this, e);
+            if (this.MouseLeave != null) {
+                this.MouseLeave(this, e);
             }
         }
         public void Update(float DeltaTime)
@@ -92,7 +115,6 @@ namespace DemoLamby2D
         // Constructors
         public ImageGameObject()
         {
-            this.IsVisible = true; // change default value to true
             this.IsHitTestVisible = true; // same as above
             this.Scale = Vector2.One;
             this.Collider = new CollisionCircle(256);

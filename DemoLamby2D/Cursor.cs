@@ -11,13 +11,10 @@ using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class Cursor : GameObject, IStaticDrawable, IPhysicsObject
+    class Cursor : GameObject, IDrawable, IPhysicsObject
     {
         // Static variables
         static readonly Texture2D CursorTexture = Game.Current.Graphics.CreateTexture("cursor.png");
-
-        // Variables
-        int _zindex;
 
         // Properties
         public Texture2D Texture { get; private set; }
@@ -25,11 +22,34 @@ namespace DemoLamby2D
         public Vector2 Center { get; set; }
         public Vector2 Scale { get; set; }
         public float Rotation { get; set; }
-        public bool IsVisible { get; set; }
         public int ZIndex { get; set; }
         public CollisionPrimitive Collider { get; set; }
         public bool IsSolid { get; set; }
         public Color Color { get; set; }
+        public DrawableKind DrawableKind { get; set; }
+        public Sprite Sprite { get; set; }
+        public float Width
+        {
+            get
+            {
+                return (this.DrawableKind == DrawableKind.Texture
+                                ? this.Texture.Width
+                                : this.DrawableKind == DrawableKind.Sprite
+                                        ? this.Sprite.Texture.Width
+                                        : 0);
+            }
+        }
+        public float Height
+        {
+            get
+            {
+                return (this.DrawableKind == DrawableKind.Texture
+                                ? this.Texture.Height
+                                : this.DrawableKind == DrawableKind.Sprite
+                                        ? this.Sprite.Texture.Height
+                                        : 0);
+            }
+        }
 
         // Handlers
         private void Input_MouseMotion(object sender, MouseMotionEventArgs e)
@@ -40,7 +60,7 @@ namespace DemoLamby2D
         // Constructors
         public Cursor()
         {
-            this.IsVisible = false; // intentional, only drawn in PostDraw
+            this.DrawableKind = DrawableKind.Texture;
             this.Texture = Cursor.CursorTexture;
             this.Scale = Vector2.One;
             this.ZIndex = 1;

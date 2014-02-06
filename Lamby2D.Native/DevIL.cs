@@ -323,7 +323,7 @@ namespace Lamby2D.Native
         public const uint IL_IMAGE_CHANNELS = 0x0DFF;
 
 
-        [DllImport("DevIL.dll", CharSet=CharSet.Unicode)]
+        [DllImport("DevIL.dll", CharSet = CharSet.Unicode)]
         public static extern void ilInit();
         [DllImport("DevIL.dll", CharSet = CharSet.Unicode)]
         public static extern uint ilGenImage();
@@ -337,5 +337,14 @@ namespace Lamby2D.Native
         public static extern uint ilCopyPixels(uint XOff, uint YOff, uint ZOff, uint Width, uint Height, uint Depth, uint Format, uint Type, IntPtr Data);
         [DllImport("DevIL.dll", CharSet = CharSet.Unicode)]
         public static extern void ilDeleteImage(uint Num);
+        [DllImport("DevIL.dll", CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ilOriginFunc(uint Mode);
+        [DllImport("DevIL.dll", CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ilEnable(uint Mode);
+        [DllImport("DevIL.dll", CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ilDisable(uint Mode);
     }
 }

@@ -12,6 +12,7 @@ namespace Lamby2D.Core
         public static readonly Vector2 Zero = new Vector2(0);
         public static readonly Vector2 One = new Vector2(1);
         public static readonly Vector2 NaN = new Vector2(float.NaN);
+        public static readonly Vector2 Half = new Vector2(0.5f);
 
         // Static operators
         public static bool operator ==(Vector2 a, Vector2 b)
@@ -130,7 +131,7 @@ namespace Lamby2D.Core
         }
         public bool IsNaN()
         {
-            return (this.X != this.X || this.Y != this.Y);
+            return (float.IsNaN(this.X) == true || float.IsNaN(this.Y) == true);
         }
 
         // Constructors

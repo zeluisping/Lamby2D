@@ -23,6 +23,15 @@ namespace Lamby2D.Drawing
             0, 1,
             0, 0,
         };
+        float[] _texcoords = new float[6 * 2]
+        {
+            0, 0,
+            1, 0,
+            1, 1,
+            1, 1,
+            0, 1,
+            0, 0,
+        };
         Color _backgroundcolor;
         PolygonMode _polygonmode;
         Color _drawcolor;
@@ -115,26 +124,25 @@ namespace Lamby2D.Drawing
             this.GraphicsContext.Dispose();
             this.GraphicsContext = null;
         }
-        public void Draw(IStaticDrawable drawable)
+        public void Draw(IDrawable drawable)
         {
+            if ((drawable.DrawableKind == DrawableKind.None) ||
+                (drawable.DrawableKind == DrawableKind.Texture && drawable.Texture == null) ||
+                (drawable.DrawableKind == DrawableKind.Sprite && drawable.Sprite == null)) {
+                return;
+            }
+
             OpenGL11.glPushMatrix();
-            if (drawable.Position != drawable.Position) {
-                OpenGL11.glTranslatef(this.GraphicsContext.Width / 2.0f, this.GraphicsContext.Height / 2.0f, 0);
-            } else {
-                OpenGL11.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
-            }
-
-            if (drawable.Scale != drawable.Scale) {
-                OpenGL11.glScalef(this.GraphicsContext.Width, this.GraphicsContext.Height, 1);
-            } else {
-                OpenGL11.glScalef(drawable.Scale.X * drawable.Texture.Width, drawable.Scale.Y * drawable.Texture.Height, 1);
-            }
-
+            OpenGL11.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
+            OpenGL11.glScalef(drawable.Scale.X * drawable.Width, drawable.Scale.Y * drawable.Height, 1);
             OpenGL11.glRotatef(drawable.Rotation, 0, 0, 1);
             OpenGL11.glTranslatef(-drawable.Center.X, -drawable.Center.Y, 0);
             OpenGL11.glColor4f(drawable.Color.R, drawable.Color.G, drawable.Color.B, drawable.Color.A);
-            draw(drawable.Texture);
-            OpenGL11.glColor4f(this.DrawColor.R, this.DrawColor.G, this.DrawColor.B, this.DrawColor.A);
+            if (drawable.DrawableKind == DrawableKind.Texture) {
+                draw(drawable.Texture);
+            } else {
+                draw(drawable.Sprite);
+            }
             OpenGL11.glPopMatrix();
         }
         public Vector2 ScreenToWorld(Point screen)
@@ -184,11 +192,50 @@ namespace Lamby2D.Drawing
             OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (texture == null ? 0 : texture.ID));
             OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
         }
+        void draw(Sprite sprite)
+        {
+            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (sprite.Texture == null ? 0 : sprite.Texture.ID));
+
+            float fu = (sprite.FrameWidth / (float) sprite.Texture.Width);
+            float fv = (sprite.FrameHeight / (float) sprite.Texture.Height);
+            int x = 0;
+            int y = 0;
+
+            if (sprite.CurrentAnimation != null) {
+                y = (int) Math.Floor(sprite._animations[sprite.CurrentAnimation].Frames[sprite.Frame] / (float) sprite.Columns);
+                x = sprite._animations[sprite.CurrentAnimation].Frames[sprite.Frame] - (y * sprite.Columns);
+            }
+
+
+            // 0,0
+            _texcoords[0] = x * fu;
+            _texcoords[1] = y * fv;
+            // 1,0
+            _texcoords[2] = _texcoords[0] + fu;
+            _texcoords[3] = _texcoords[1];
+            // 1,1
+            _texcoords[4] = _texcoords[0] + fu;
+            _texcoords[5] = _texcoords[1] + fv;
+            // 1,1
+            _texcoords[6] = _texcoords[0] + fu;
+            _texcoords[7] = _texcoords[1] + fv;
+            // 0,1
+            _texcoords[8] = _texcoords[0];
+            _texcoords[9] = _texcoords[1] + fv;
+            // 0,0
+            _texcoords[10] = _texcoords[0];
+            _texcoords[11] = _texcoords[1];
+            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _texcoords);
+            OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
+            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
+        }
 
         // Constructors
         public Graphics()
         {
             DevIL.ilInit();
+            DevIL.ilOriginFunc(DevIL.IL_ORIGIN_UPPER_LEFT);
+            DevIL.ilEnable(DevIL.IL_ORIGIN_SET);
 
             this.GraphicsContext = new GraphicsContext();
             this.BackgroundColor = Colors.Black;
@@ -201,12 +248,12 @@ namespace Lamby2D.Drawing
             OpenGL11.glOrtho(0, this.GraphicsContext.Width, this.GraphicsContext.Height, 0, 1, -1);
             OpenGL11.glMatrixMode(OpenGL11.GL_MODELVIEW);
             OpenGL11.glLoadIdentity();
-            OpenGL11.glEnable(OpenGL11.GL_CULL_FACE);
+            //OpenGL11.glEnable(OpenGL11.GL_CULL_FACE);
             OpenGL11.glEnable(OpenGL11.GL_BLEND);
             OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
             //OpenGL11.glEnable(OpenGL11.GL_DEPTH_TEST);
             //OpenGL11.glEnable(OpenGL11.GL_ALPHA_TEST);
-            OpenGL11.glCullFace(OpenGL11.GL_FRONT);
+            //OpenGL11.glCullFace(OpenGL11.GL_FRONT);
             OpenGL11.glBlendFunc(OpenGL11.GL_SRC_ALPHA, OpenGL11.GL_ONE_MINUS_SRC_ALPHA);
             //OpenGL11.glDepthFunc(OpenGL11.GL_GEQUAL);
             //OpenGL11.glAlphaFunc(OpenGL11.GL_GREATER, 0.5f);

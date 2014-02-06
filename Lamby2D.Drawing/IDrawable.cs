@@ -1,26 +1,24 @@
-﻿using System;
+﻿using Lamby2D.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lamby2D.Core;
 
 namespace Lamby2D.Drawing
 {
-    /// <summary>
-    /// Interface for game objects that are a static texture.
-    /// </summary>
-    public interface IStaticDrawable
+    public interface IDrawable
     {
+        DrawableKind DrawableKind { get; }
         Texture2D Texture { get; }
+        Sprite Sprite { get; }
         Vector2 Position { get; }
         Vector2 Center { get; }
         Vector2 Scale { get; }
-        float Rotation { get; }
-        bool IsVisible { get; }
-        int ZIndex { get; }
         Color Color { get; }
-
-        //event ZIndexChangedEventHandler ZIndexChanged;
+        float Rotation { get; }
+        int ZIndex { get; }
+        float Width { get; }
+        float Height { get; }
     }
 }
