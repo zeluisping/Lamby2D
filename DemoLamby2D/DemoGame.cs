@@ -77,7 +77,7 @@ namespace DemoLamby2D
                 Scale = new Vector2(-0.5f, 0.5f),
             };
             imagegameobject.Sprite.AddAnimation("Run", new SpriteAnimation(new int[] { 5, 6, 7, 6, 5, 8, 9, 10, 11, 10, 9, 8, }, 15));
-            //imagegameobject.Sprite.PlayAnimation("Run");
+            imagegameobject.Sprite.PlayAnimation("Run");
             imagegameobject.Sprite.AddAnimation("Ass", new SpriteAnimation(new int[] { 12,13,14,15,14,13,12 }, 7));
             //imagegameobject.Sprite.PlayAnimation("Ass");
             imagegameobject.MouseDown += delegate {

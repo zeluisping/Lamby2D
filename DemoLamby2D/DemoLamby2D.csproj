@@ -61,7 +61,6 @@
   <ItemGroup>
     <Compile Include="Cursor.cs" />
     <Compile Include="DemoGame.cs" />
-    <Compile Include="Image.cs" />
     <Compile Include="ImageGameObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
