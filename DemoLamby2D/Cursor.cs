@@ -11,7 +11,7 @@ using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class Cursor : GameObject, IDrawable, IPhysicsObject
+    class Cursor : GameObject, IDrawable, IPhysicsObject, ITickable
     {
         // Static variables
         static readonly Texture2D CursorTexture = Game.Current.Graphics.CreateTexture("cursor.png");
@@ -55,6 +55,12 @@ namespace DemoLamby2D
         private void Input_MouseMotion(object sender, MouseMotionEventArgs e)
         {
             this.Position = Game.Current.Graphics.ScreenToWorld(e.Position);
+        }
+
+        // Public
+        public void Update(float DeltaTime)
+        {
+            this.Position = Game.Current.Graphics.ScreenToWorld(Game.Current.Input.MousePosition);
         }
 
         // Constructors

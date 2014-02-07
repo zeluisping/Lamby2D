@@ -19,6 +19,7 @@ namespace DemoLamby2D
         ImageGameObject imagegameobject;
         Cursor cursor;
         bool debugcolliders = false;
+        bool movecamera = false;
 
         // Handlers
         private void Input_KeyDown(object sender, KeyEventArgs e)
@@ -27,12 +28,31 @@ namespace DemoLamby2D
                 Quit();
             } else if (e.Key == KeyCode.B) {
                 debugcolliders = !debugcolliders;
+            } else if (e.Key == KeyCode.C) {
+                movecamera = !movecamera;
+                imagegameobject.MoveWithInput = !movecamera;
             }
         }
 
         // Public
         public override void Update(float DeltaTime)
         {
+            if (movecamera == true) {
+                float speed = 500.0f;
+
+                if (Game.Current.Input.IsKeyDown(KeyCode.A) == true) {
+                    this.Graphics.Camera.Position -= new Vector2(speed * DeltaTime * 0.5f, 0);
+                }
+                if (Game.Current.Input.IsKeyDown(KeyCode.D) == true) {
+                    this.Graphics.Camera.Position += new Vector2(speed * DeltaTime * 0.5f, 0);
+                }
+                if (Game.Current.Input.IsKeyDown(KeyCode.W) == true) {
+                    this.Graphics.Camera.Position -= new Vector2(0, speed * DeltaTime * 0.5f);
+                }
+                if (Game.Current.Input.IsKeyDown(KeyCode.S) == true) {
+                    this.Graphics.Camera.Position += new Vector2(0, speed * DeltaTime * 0.5f);
+                }
+            }
         }
         public override void PostUpdate(float DeltaTime)
         {

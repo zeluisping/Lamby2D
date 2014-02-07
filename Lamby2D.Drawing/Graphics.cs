@@ -71,11 +71,14 @@ namespace Lamby2D.Drawing
                 }
             }
         }
+        public ICamera Camera { get; set; }
 
         // Public
         public void Clear()
         {
             OpenGL11.glClear(OpenGL11.GL_COLOR_BUFFER_BIT | OpenGL11.GL_DEPTH_BUFFER_BIT);
+            OpenGL11.glLoadIdentity();
+            OpenGL11.glTranslatef(-this.Camera.Position.X, -this.Camera.Position.Y, 0);
         }
         public void Flush()
         {
@@ -147,11 +150,22 @@ namespace Lamby2D.Drawing
         }
         public Vector2 ScreenToWorld(Point screen)
         {
+            if (this.Camera != null) {
+                return new Vector2(screen.X + this.Camera.Position.X, screen.Y + this.Camera.Position.Y);
+            }
             return new Vector2(screen.X, screen.Y);
         }
         public Point? WorldToScreen(Vector2 world)
         {
-            if (world.X < 0 || world.X >= this.GraphicsContext.Width || world.X < 0 || world.Y >= this.GraphicsContext.Height) {
+            if (this.Camera != null) {
+                //if (world.X   this.Camera.Position.X < 0 || world.X + this.Camera.Position.X >= this.GraphicsContext.Width || world.Y + this.Camera.Position.Y < 0 || world.Y + this.Camera.Position.Y >= this.GraphicsContext.Height) {
+                if (world.X < this.Camera.Position.X || world.X >= this.Camera.Position.X + this.GraphicsContext.Width || world.Y < this.Camera.Position.Y || world.Y >= this.Camera.Position.Y + this.GraphicsContext.Height) {
+                    return null;
+                }
+                return new Point((int) (world.X + this.Camera.Position.X), (int) (world.Y + this.Camera.Position.Y));
+            }
+
+            if (world.X < 0 || world.X >= this.GraphicsContext.Width || world.Y < 0 || world.Y >= this.GraphicsContext.Height) {
                 return null;
             }
             return new Point((int) world.X, (int) world.Y);
@@ -242,6 +256,7 @@ namespace Lamby2D.Drawing
             this.PolygonMode = PolygonMode.Fill;
             this.DrawColor = Colors.White;
             this.GraphicsContext.Window.Show();
+            this.Camera = new Camera();
 
             OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
             OpenGL11.glLoadIdentity();

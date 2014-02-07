@@ -39,9 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="DrawableKind.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="GraphicsContext.cs" />
+    <Compile Include="ICamera.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="PolygonMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

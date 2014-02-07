@@ -48,6 +48,7 @@ namespace DemoLamby2D
                                         : 0);
             }
         }
+        public bool MoveWithInput { get; set; }
 
         // Events
         public event MouseButtonEventHandler MouseDown;
@@ -96,6 +97,10 @@ namespace DemoLamby2D
         }
         public void Update(float DeltaTime)
         {
+            if (this.MoveWithInput == false) {
+                return;
+            }
+
             float speed = 200.0f;
 
             if (Game.Current.Input.IsKeyDown(KeyCode.A) == true) {
@@ -119,6 +124,7 @@ namespace DemoLamby2D
             this.Scale = Vector2.One;
             this.Collider = new CollisionCircle(256);
             this.Color = Colors.White;
+            this.MoveWithInput = true;
         }
     }
 }
