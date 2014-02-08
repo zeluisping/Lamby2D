@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lamby2D.Core
 {
+    [Obsolete("unused", true)]
     public delegate void ZIndexChangedEventHandler(object sender, ZIndexChangedEventArgs e);
 
+    [Obsolete("unused", true)]
     public class ZIndexChangedEventArgs : EventArgs
     {
         // Public
