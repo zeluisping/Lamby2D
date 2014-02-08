@@ -1,34 +1,71 @@
-﻿using System;
+﻿using Lamby2D.Drawing;
+using Lamby2D.Input;
+using Lamby2D.Physics;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lamby2D.Core;
-using Lamby2D.Drawing;
-using Lamby2D.Input;
-using System.Diagnostics;
-using Lamby2D.Physics;
 
 namespace Lamby2D
 {
     public class Game : IDisposable
     {
         // Static properties
-        public static Game Current { get; private set; }
+        #region public static Game Current { get; private set; }
+        static Game _current;
+        public static Game Current
+        {
+            get { return _current; }
+            private set
+            {
+                if (_current != value) {
+                    if (_current != null) {
+                        throw new InvalidOperationException("Trying to create a Game instance when one already exists.");
+                    }
+
+                    _current = value;
+                }
+            }
+        }
+        #endregion
 
         // Variables
         List<ITickable> _tickables;
         List<IDrawable> _drawables;
-        bool _quit;
 
         // Properties
         public Graphics Graphics { get; private set; }
         public GameInput Input { get; private set; }
         public GamePhysics Physics { get; private set; }
         public int FramesPerSecond { get; private set; }
+        protected IEnumerable Tickables { get { return _tickables.AsEnumerable(); } }
+        protected IEnumerable Drawables { get { return _drawables.AsEnumerable(); } }
+        protected bool bQuit { get; private set; }
 
         // Public
-        public void MainLoop()
+        public virtual void Update(float DeltaTime)
+        {
+        }
+        public virtual void PostUpdate(float DeltaTime)
+        {
+        }
+        public virtual void PostDraw()
+        {
+        }
+        public virtual void Dispose()
+        {
+            this.Graphics.Dispose();
+        }
+        public void Quit()
+        {
+            this.bQuit = true;
+        }
+
+        // Internal
+        protected internal virtual void MainLoop()
         {
             Stopwatch timer = new Stopwatch();
             float fpstime = 0;
@@ -36,14 +73,14 @@ namespace Lamby2D
 
             timer.Start();
             while (Graphics.GraphicsContext.Window != null) {
-                if (_quit == true) {
+                if (this.bQuit == true) {
                     return;
                 }
 
                 this.Input.Update(); // resets deltas
                 this.Graphics.GraphicsContext.Window.PollMessages();
 
-                if (this.Graphics.GraphicsContext.Window == null || _quit == true) {
+                if (this.Graphics.GraphicsContext.Window == null || this.bQuit == true) {
                     break;
                 }
 
@@ -53,19 +90,19 @@ namespace Lamby2D
                 timer.Restart();
 
                 this.Update(dt);
-                if (_quit == true) {
+                if (this.bQuit == true) {
                     return;
                 }
 
                 foreach (ITickable tickable in _tickables) {
                     tickable.Update(dt);
-                    if (_quit == true) {
+                    if (this.bQuit == true) {
                         return;
                     }
                 }
 
                 this.PostUpdate(dt);
-                if (_quit == true) {
+                if (this.bQuit == true) {
                     return;
                 }
 
@@ -96,27 +133,6 @@ namespace Lamby2D
                 }
             }
         }
-        public virtual void Update(float DeltaTime)
-        {
-        }
-        public virtual void PostUpdate(float DeltaTime)
-        {
-        }
-        public virtual void PostDraw()
-        {
-        }
-        public void Dispose()
-        {
-            this.Graphics.Dispose();
-            this.Graphics = null;
-            this.Cleanup();
-        }
-        public void Quit()
-        {
-            _quit = true;
-        }
-
-        // Internal
         internal void RegisterGameObject(GameObject obj)
         {
             // Functionality
@@ -128,9 +144,6 @@ namespace Lamby2D
             if (obj is IDrawable) {
                 IDrawable staticdrawable = (IDrawable) obj;
                 _drawables.Add(staticdrawable);
-                //_staticdrawables.Sort((a, b) => a.ZIndex - b.ZIndex);
-                //_staticdrawables.Add(staticdrawable.ZIndex, staticdrawable);
-                //staticdrawable.ZIndexChanged += staticdrawable_ZIndexChanged;
             }
 
             // Input
@@ -154,10 +167,8 @@ namespace Lamby2D
             if (obj is IDrawable) {
                 IDrawable staticdrawable = (IDrawable) obj;
                 _drawables.Remove(staticdrawable);
-                //_staticdrawables.Remove(staticdrawable.ZIndex);
-                //staticdrawable.ZIndexChanged -= staticdrawable_ZIndexChanged;
             }
-
+            
             // Input
             if (obj is IMouseAware) {
                 this.Input.MouseAwares.Remove(obj as IMouseAware);
@@ -169,17 +180,9 @@ namespace Lamby2D
             }
         }
 
-        // Protected
-        protected virtual void Cleanup()
-        {
-        }
-
         // Constructors
         public Game()
         {
-            if (Game.Current != null) {
-                throw new Exception("Trying to create a Game instance when one already exists.");
-            }
             Game.Current = this;
 
             _tickables = new List<ITickable>();

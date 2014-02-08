@@ -33,7 +33,7 @@ namespace DemoLamby2D
                 return (this.DrawableKind == DrawableKind.Texture
                                 ? this.Texture.Width
                                 : this.DrawableKind == DrawableKind.Sprite
-                                        ? this.Sprite.Texture.Width
+                                        ? this.Sprite.FrameHeight
                                         : 0);
             }
         }
@@ -44,7 +44,7 @@ namespace DemoLamby2D
                 return (this.DrawableKind == DrawableKind.Texture
                                 ? this.Texture.Height
                                 : this.DrawableKind == DrawableKind.Sprite
-                                        ? this.Sprite.Texture.Height
+                                        ? this.Sprite.FrameWidth
                                         : 0);
             }
         }
@@ -64,10 +64,12 @@ namespace DemoLamby2D
                 return false;
             }
 
-            return (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Width &&
+            if (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Width &&
                     world.X <= this.Position.X - this.Center.X * this.Scale.X * this.Width + this.Width * this.Scale.X &&
                     world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height &&
-                    world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height + this.Height * this.Scale.Y);
+                    world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height + this.Height * this.Scale.Y)
+                return true;
+            return false;
         }
         public void OnMouseDown(MouseButtonEventArgs e)
         {

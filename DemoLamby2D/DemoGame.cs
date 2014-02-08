@@ -37,6 +37,7 @@ namespace DemoLamby2D
         // Public
         public override void Update(float DeltaTime)
         {
+            // called before anything else updates
             if (movecamera == true) {
                 float speed = 500.0f;
 
@@ -56,6 +57,7 @@ namespace DemoLamby2D
         }
         public override void PostUpdate(float DeltaTime)
         {
+            // called after everything has updated
             this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject) ? "Intersects" : "FPS: " + this.FramesPerSecond);
         }
         public override void PostDraw()
@@ -70,12 +72,14 @@ namespace DemoLamby2D
                 this.Graphics.PolygonMode = PolygonMode.Fill;
             }
         }
-
-        // Protected
-        protected override void Cleanup()
+        public override void Dispose()
         {
+            // we must dispose of textures (for now)
             texture.Dispose();
             cursor.Texture.Dispose();
+
+            // last thing on this function
+            base.Dispose();
         }
 
         // Constructors
@@ -94,7 +98,7 @@ namespace DemoLamby2D
                 Center = new Vector2(0.5f),
                 DrawableKind = DrawableKind.Sprite,
                 Sprite = new Sprite(texture, 128, 128),
-                Scale = new Vector2(-0.5f, 0.5f),
+                Scale = new Vector2(0.5f, 0.5f),
             };
             imagegameobject.Sprite.AddAnimation("Run", new SpriteAnimation(new int[] { 5, 6, 7, 6, 5, 8, 9, 10, 11, 10, 9, 8, }, 15));
             imagegameobject.Sprite.PlayAnimation("Run");

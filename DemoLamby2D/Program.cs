@@ -13,9 +13,7 @@ namespace DemoLamby2D
     {
         static void Main(string[] args)
         {
-            using (DemoGame game = new DemoGame()) {
-                game.MainLoop();
-            }
+            new Application().Run<DemoGame>();
         }
     }
 }

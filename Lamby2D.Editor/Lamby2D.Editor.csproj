@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F89D112D-2FDD-43E8-82BB-91CE0A66AB87}</ProjectGuid>
+    <ProjectGuid>{A0C4C05B-3347-447C-9E57-AB5C820FF79B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lamby2D</RootNamespace>
-    <AssemblyName>Lamby2D</AssemblyName>
+    <RootNamespace>Lamby2D.Editor</RootNamespace>
+    <AssemblyName>Lamby2D.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,11 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GameInput.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="ITickable.cs" />
+    <Compile Include="Editor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +58,10 @@
     <ProjectReference Include="..\Lamby2D.Physics\Lamby2D.Physics.csproj">
       <Project>{95351723-c2eb-486c-9e19-396bdce653ac}</Project>
       <Name>Lamby2D.Physics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lamby2D\Lamby2D.csproj">
+      <Project>{f89d112d-2fdd-43e8-82bb-91ce0a66ab87}</Project>
+      <Name>Lamby2D</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
