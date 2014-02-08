@@ -111,7 +111,7 @@ namespace DemoLamby2D
                 this.MouseLeave(this, e);
             }
         }
-        public void Update(float DeltaTime)
+        public virtual void Update(float DeltaTime)
         {
             if (this.MoveWithInput == false) {
                 return;

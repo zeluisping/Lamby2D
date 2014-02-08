@@ -14,7 +14,8 @@ namespace Lamby2D
         bool[] _keystates;
         bool[] _mousestates;
         Point _mousepos;
-        Point _mousedelta;
+        //[Obsolete("not implemented", true)]
+        //Point _mousedelta;
         List<IMouseAware> _mouseawares;
         IMouseAware _mouseawarehover;
 
@@ -23,9 +24,11 @@ namespace Lamby2D
         {
             get { return _mousepos; }
         }
+        [Obsolete("not implemented", true)]
         public Point MouseDelta
         {
-            get { return _mousedelta; }
+            get { return default(Point); }
+            //get { return _mousedelta; }
         }
         internal List<IMouseAware> MouseAwares
         {
@@ -64,17 +67,7 @@ namespace Lamby2D
             }
 
             if (e.Handled == false) {
-                IMouseAware handler = null;
-                foreach (IMouseAware aware in _mouseawares) {
-                    if (aware.IsHitTestVisible == true && aware.MouseHitTest(e.Position) == true) {
-                        handler = (handler == null
-                                        ? aware
-                                        : aware.ZIndex > handler.ZIndex
-                                                ? aware
-                                                : handler);
-                    }
-                }
-
+                IMouseAware handler = gethandler(e.Position);
                 if (handler != null) {
                     handler.OnMouseDown(new MouseButtonEventArgs(e.Button, e.Position));
                 }
@@ -88,17 +81,7 @@ namespace Lamby2D
             }
 
             if (e.Handled == false) {
-                IMouseAware handler = null;
-                foreach (IMouseAware aware in _mouseawares) {
-                    if (aware.IsHitTestVisible == true && aware.MouseHitTest(e.Position) == true) {
-                        handler = (handler == null
-                                        ? aware
-                                        : aware.ZIndex > handler.ZIndex
-                                                ? aware
-                                                : handler);
-                    }
-                }
-
+                IMouseAware handler = gethandler(e.Position);
                 if (handler != null) {
                     handler.OnMouseUp(new MouseButtonEventArgs(e.Button, e.Position));
                 }
@@ -106,23 +89,13 @@ namespace Lamby2D
         }
         private void Window_MouseMotion(object sender, MouseMotionEventArgs e)
         {
-            _mousedelta += _mousepos - e.Position;
+            //_mousedelta += _mousepos - e.Position;
             _mousepos = e.Position;
             if (this.MouseMotion != null) {
                 this.MouseMotion(this, e);
             }
 
-            IMouseAware handler = null;
-            foreach (IMouseAware aware in _mouseawares) {
-                if (aware.IsHitTestVisible == true && aware.MouseHitTest(e.Position) == true) {
-                    handler = (handler == null
-                                    ? aware
-                                    : aware.ZIndex > handler.ZIndex
-                                            ? aware
-                                            : handler);
-                }
-            }
-
+            IMouseAware handler = gethandler(e.Position);
             if (handler != _mouseawarehover) {
                 if (_mouseawarehover != null) {
                     _mouseawarehover.OnMouseLeave(e);
@@ -150,7 +123,25 @@ namespace Lamby2D
         // Internal
         internal void Update()
         {
-            _mousedelta = Point.Zero;
+            //_mousedelta = Point.Zero;
+        }
+
+        // Private
+        IMouseAware gethandler(Point position)
+        {
+            IMouseAware handler = null;
+            //foreach (IMouseAware aware in _mouseawares) {
+            for (int i = _mouseawares.Count - 1; i >= 0; i--) {
+                IMouseAware aware = _mouseawares[i];
+                if (aware.IsHitTestVisible == true && aware.MouseHitTest(position) == true) {
+                    handler = (handler == null
+                                    ? aware
+                                    : aware.ZIndex > handler.ZIndex
+                                            ? aware
+                                            : handler);
+                }
+            }
+            return handler;
         }
 
         // Constructors

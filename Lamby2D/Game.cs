@@ -84,8 +84,6 @@ namespace Lamby2D
                     break;
                 }
 
-                //float dt = (float) (DateTime.UtcNow - lasttick).TotalSeconds;
-                //lasttick = DateTime.UtcNow;
                 float dt = (float) timer.Elapsed.TotalSeconds;
                 timer.Restart();
 
@@ -120,7 +118,7 @@ namespace Lamby2D
                         } // if
                     } // if
                     this.Graphics.Draw(drawable);
-                }
+                } // foreach
                 PostDraw();
                 this.Graphics.Flush();
 

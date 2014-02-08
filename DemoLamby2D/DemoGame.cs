@@ -20,6 +20,7 @@ namespace DemoLamby2D
         Cursor cursor;
         bool debugcolliders = false;
         bool movecamera = false;
+        DragImageGameObject dragobject;
 
         // Handlers
         private void Input_KeyDown(object sender, KeyEventArgs e)
@@ -95,7 +96,7 @@ namespace DemoLamby2D
 
             texture = this.Graphics.CreateTexture("charanim.png");
             imagegameobject = new ImageGameObject() {
-                Center = new Vector2(0.5f),
+                Center = Vector2.Half,
                 DrawableKind = DrawableKind.Sprite,
                 Sprite = new Sprite(texture, 128, 128),
                 Scale = new Vector2(-0.5f, 0.5f),
@@ -109,6 +110,13 @@ namespace DemoLamby2D
             };
             imagegameobject.MouseDown += delegate {
                 imagegameobject.Position = Vector2.Zero;
+            };
+
+            dragobject = new DragImageGameObject() {
+                Center = Vector2.Half,
+                DrawableKind = DrawableKind.Sprite,
+                Sprite = new Sprite(texture, 128, 128),
+                Scale = Vector2.Half,
             };
         }
     }

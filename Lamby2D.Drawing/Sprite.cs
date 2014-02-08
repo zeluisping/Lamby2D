@@ -9,7 +9,6 @@ namespace Lamby2D.Drawing
     public class Sprite
     {
         // Variables
-        int _framespersecond;
         internal Dictionary<string, SpriteAnimation> _animations;
 
         // Properties

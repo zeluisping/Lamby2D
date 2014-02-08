@@ -244,6 +244,8 @@ namespace Lamby2D.OpenGL
         public static extern uint glGenTextures(int n, uint[] textures);
         [DllImport(DllName)]
         public static extern void glColor4f(float red, float green, float blue, float alpha);
+        [DllImport(DllName)]
+        public static extern void glLineWidth(float width);
         #endregion
         #region Immediate Mode
         [DllImport(DllName)]

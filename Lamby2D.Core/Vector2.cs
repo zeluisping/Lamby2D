@@ -120,6 +120,20 @@ namespace Lamby2D.Core
         {
             get { return new Vector2(-_x, -_y); }
         }
+        /// <summary>
+        /// Get a floored version of this vector.
+        /// </summary>
+        public Vector2 Floored
+        {
+            get { return new Vector2((float) Math.Floor(_x), (float) Math.Floor(_y)); }
+        }
+        /// <summary>
+        /// Gets a celiled version of this vector.
+        /// </summary>
+        public Vector2 Ceiled
+        {
+            get { return new Vector2((float) Math.Ceiling(_x), (float) Math.Ceiling(_y)); }
+        }
 
         // Public
         /// <summary>
@@ -196,6 +210,22 @@ namespace Lamby2D.Core
         public bool IsNaN()
         {
             return (float.IsNaN(this.X) == true || float.IsNaN(this.Y) == true);
+        }
+        /// <summary>
+        /// Floors the vector components.
+        /// </summary>
+        public void Floor()
+        {
+            _x = (float) Math.Floor(_x);
+            _y = (float) Math.Floor(_y);
+        }
+        /// <summary>
+        /// Ceils the vector components.
+        /// </summary>
+        public void Ceiling()
+        {
+            _x = (float) Math.Ceiling(_x);
+            _y = (float) Math.Ceiling(_y);
         }
 
         // Constructors
