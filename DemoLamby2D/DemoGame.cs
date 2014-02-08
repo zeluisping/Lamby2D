@@ -98,7 +98,7 @@ namespace DemoLamby2D
                 Center = new Vector2(0.5f),
                 DrawableKind = DrawableKind.Sprite,
                 Sprite = new Sprite(texture, 128, 128),
-                Scale = new Vector2(0.5f, 0.5f),
+                Scale = new Vector2(-0.5f, 0.5f),
             };
             imagegameobject.Sprite.AddAnimation("Run", new SpriteAnimation(new int[] { 5, 6, 7, 6, 5, 8, 9, 10, 11, 10, 9, 8, }, 15));
             imagegameobject.Sprite.PlayAnimation("Run");

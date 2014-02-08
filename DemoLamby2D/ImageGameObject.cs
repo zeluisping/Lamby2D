@@ -64,12 +64,26 @@ namespace DemoLamby2D
                 return false;
             }
 
-            if (world.X >= this.Position.X - this.Center.X * this.Scale.X * this.Width &&
-                    world.X <= this.Position.X - this.Center.X * this.Scale.X * this.Width + this.Width * this.Scale.X &&
-                    world.Y >= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height &&
-                    world.Y <= this.Position.Y - this.Center.Y * this.Scale.Y * this.Height + this.Height * this.Scale.Y)
-                return true;
-            return false;
+            float x0, y0;
+            float x1, y1;
+
+            if (Scale.X < 0) {
+                x1 = this.Position.X - this.Center.X * this.Scale.X * this.Width;
+                x0 = x1 + this.Width * this.Scale.X;
+            } else {
+                x0 = this.Position.X - this.Center.X * this.Scale.X * this.Width;
+                x1 = x0 + this.Width * this.Scale.X;
+            }
+
+            if (Scale.Y < 0) {
+                y1 = this.Position.Y - this.Center.Y * this.Scale.Y * this.Height;
+                y0 = y1 + this.Height * this.Scale.Y;
+            } else {
+                y0 = this.Position.Y - this.Center.Y * this.Scale.Y * this.Height;
+                y1 = y0 + this.Height * this.Scale.Y;
+            }
+
+            return (world.X >= x0 && world.X <= x1 && world.Y >= y0 && world.Y <= y1);
         }
         public void OnMouseDown(MouseButtonEventArgs e)
         {
