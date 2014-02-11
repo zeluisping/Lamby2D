@@ -239,9 +239,65 @@ namespace Lamby2D.Drawing
                     OpenGL11.glVertex2f(start.X, start.Y);
                 }
                 OpenGL11.glEnd();
-                OpenGL11.glLineWidth(1.0f);
+                OpenGL11.glLineWidth(1);
                 OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
             }
+        }
+        public void DrawRectangleBorder(Vector2 position, float rotation, float width, float height, float linewidth)
+        {
+            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL11.glLineWidth(linewidth);
+            OpenGL11.glPushMatrix();
+            {
+                OpenGL11.glRotatef(rotation, 0, 0, 1);
+                OpenGL11.glBegin(OpenGL11.GL_LINE_LOOP);
+                {
+                    OpenGL11.glVertex2f(position.X, position.Y);
+                    OpenGL11.glVertex2f(position.X + width, position.Y);
+                    OpenGL11.glVertex2f(position.X + width, position.Y + height);
+                    OpenGL11.glVertex2f(position.X, position.Y + height);
+                }
+                OpenGL11.glEnd();
+            }
+            OpenGL11.glPopMatrix();
+            OpenGL11.glLineWidth(1);
+            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+        }
+        public void PushMatrix()
+        {
+            OpenGL11.glPushMatrix();
+        }
+        public void PopMatrix()
+        {
+            OpenGL11.glPopMatrix();
+        }
+        public void Translate(Vector2 value)
+        {
+            OpenGL11.glTranslatef(value.X, value.Y, 0);
+        }
+        public void Translate(float x, float y)
+        {
+            OpenGL11.glTranslatef(x, y, 0);
+        }
+        public void Rotate(float rotation)
+        {
+            OpenGL11.glRotatef(rotation, 0, 0, 1);
+        }
+        public void Scale(Vector2 value)
+        {
+            OpenGL11.glScalef(value.X, value.Y, 1);
+        }
+        public void Scale(float x, float y)
+        {
+            OpenGL11.glScalef(x, y, 1);
+        }
+        public void Scale(float xy)
+        {
+            OpenGL11.glScalef(xy, xy, 1);
+        }
+        public void IdentityMatrix()
+        {
+            OpenGL11.glLoadIdentity();
         }
 
         // Private

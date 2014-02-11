@@ -98,6 +98,13 @@ namespace Lamby2D.Core
         {
             get { return new Point(-_x, -_y); }
         }
+        /// <summary>
+        /// Get this point as a two dimensional vector.
+        /// </summary>
+        public Vector2 Vector
+        {
+            get { return new Vector2(_x, _y); }
+        }
 
         // Public
         /// <summary>
