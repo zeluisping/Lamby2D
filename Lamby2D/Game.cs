@@ -1,6 +1,7 @@
 ﻿using Lamby2D.Drawing;
 using Lamby2D.Input;
 using Lamby2D.Physics;
+using Lamby2D.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace Lamby2D
             Stopwatch timer = new Stopwatch();
             float fpstime = 0;
             int fpscounter = 0;
-
+            UIManager ui = new UIManager();
             timer.Start();
             while (Graphics.GraphicsContext.Window != null) {
                 if (this.bQuit == true) {
@@ -120,6 +121,7 @@ namespace Lamby2D
                     this.Graphics.Draw(drawable);
                 } // foreach
                 PostDraw();
+                ui.Draw(this.Graphics);
                 this.Graphics.Flush();
 
                 ++fpscounter;

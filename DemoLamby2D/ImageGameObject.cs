@@ -119,17 +119,39 @@ namespace DemoLamby2D
 
             float speed = 200.0f;
 
+            if (this.Sprite.CurrentAnimation != "Ass" && (Game.Current.Input.IsKeyDown(KeyCode.A) || Game.Current.Input.IsKeyDown(KeyCode.D) || Game.Current.Input.IsKeyDown(KeyCode.W) || Game.Current.Input.IsKeyDown(KeyCode.S)) == false) {
+                this.Sprite.PlayAnimation("Ass");
+            }
+
             if (Game.Current.Input.IsKeyDown(KeyCode.A) == true) {
                 this.Position -= new Vector2(speed * DeltaTime * 0.5f, 0);
+                if (this.Sprite.CurrentAnimation != "Run") {
+                    this.Sprite.PlayAnimation("Run");
+                }
+                if (this.Scale.X != 0.5f) {
+                    this.Scale *= new Vector2(-1, 1);
+                }
             }
             if (Game.Current.Input.IsKeyDown(KeyCode.D) == true) {
                 this.Position += new Vector2(speed * DeltaTime * 0.5f, 0);
+                if (this.Sprite.CurrentAnimation != "Run") {
+                    this.Sprite.PlayAnimation("Run");
+                }
+                if (this.Scale.X != -0.5f) {
+                    this.Scale *= new Vector2(-1, 1);
+                }
             }
             if (Game.Current.Input.IsKeyDown(KeyCode.W) == true) {
                 this.Position -= new Vector2(0, speed * DeltaTime * 0.5f);
+                if (this.Sprite.CurrentAnimation != "Run") {
+                    this.Sprite.PlayAnimation("Run");
+                }
             }
             if (Game.Current.Input.IsKeyDown(KeyCode.S) == true) {
                 this.Position += new Vector2(0, speed * DeltaTime * 0.5f);
+                if (this.Sprite.CurrentAnimation != "Run") {
+                    this.Sprite.PlayAnimation("Run");
+                }
             }
         }
 

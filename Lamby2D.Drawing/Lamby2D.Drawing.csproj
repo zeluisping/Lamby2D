@@ -66,9 +66,9 @@
       <Project>{1b747bfb-98d8-4bca-a52a-de43c07e6042}</Project>
       <Name>Lamby2D.Native</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lamby2D.OpenGL\Lamby2D.OpenGL.csproj">
-      <Project>{9fa1e824-3eef-4015-8468-2a6639ec58d8}</Project>
-      <Name>Lamby2D.OpenGL</Name>
+    <ProjectReference Include="..\Lamby2D.Typography\Lamby2D.Typography.csproj">
+      <Project>{0ca17298-e2dc-4956-a054-5a966c199e1a}</Project>
+      <Name>Lamby2D.Typography</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

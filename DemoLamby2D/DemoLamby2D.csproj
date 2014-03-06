@@ -68,6 +68,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="fonts\FiraMonoOT-Bold.otf" />
+    <None Include="fonts\FiraMonoOT-Regular.otf" />
+    <None Include="fonts\FiraSansOT-Bold.otf" />
+    <None Include="fonts\FiraSansOT-BoldItalic.otf" />
+    <None Include="fonts\FiraSansOT-Light.otf" />
+    <None Include="fonts\FiraSansOT-LightItalic.otf" />
+    <None Include="fonts\FiraSansOT-Medium.otf" />
+    <None Include="fonts\FiraSansOT-MediumItalic.otf" />
+    <None Include="fonts\FiraSansOT-Regular.otf" />
+    <None Include="fonts\FiraSansOT-RegularItalic.otf" />
     <None Include="IMMORTAL.ttf" />
   </ItemGroup>
   <ItemGroup>

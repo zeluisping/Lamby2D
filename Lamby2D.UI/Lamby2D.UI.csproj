@@ -39,9 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingObject.cs" />
+    <Compile Include="BindingProperty.cs" />
+    <Compile Include="Border.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="ContentControl.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lamby2D.Core\Lamby2D.Core.csproj">
@@ -56,9 +62,9 @@
       <Project>{b9492dd0-6175-42d7-8a91-70e6180b5b8c}</Project>
       <Name>Lamby2D.Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lamby2D\Lamby2D.csproj">
-      <Project>{f89d112d-2fdd-43e8-82bb-91ce0a66ab87}</Project>
-      <Name>Lamby2D</Name>
+    <ProjectReference Include="..\Lamby2D.Native\Lamby2D.Native.csproj">
+      <Project>{1b747bfb-98d8-4bca-a52a-de43c07e6042}</Project>
+      <Name>Lamby2D.Native</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

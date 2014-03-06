@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Lamby2D.OpenGL")]
+[assembly: AssemblyTitle("Lamby2D.Typography")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Lamby2D.OpenGL")]
+[assembly: AssemblyProduct("Lamby2D.Typography")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1c7333a7-698d-4242-8684-2fe12f2240b8")]
+[assembly: Guid("abd45edb-722c-4cba-a64e-85a3f4171e96")]
 
 // Version information for an assembly consists of the following four values:
 //

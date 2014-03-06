@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using Lamby2D.Core;
 using Lamby2D.Native;
 using Lamby2D.Native.FreeType;
-using Lamby2D.OpenGL;
+using Lamby2D.Typography;
+using Lamby2D.Native.OpenGL;
 
 namespace Lamby2D.Drawing
 {
@@ -45,7 +46,7 @@ namespace Lamby2D.Drawing
             {
                 if (_backgroundcolor != value) {
                     _backgroundcolor = value;
-                    OpenGL11.glClearColor(value.R, value.G, value.B, value.A);
+                    OpenGL.glClearColor(value.R, value.G, value.B, value.A);
                 }
             }
         }
@@ -56,7 +57,7 @@ namespace Lamby2D.Drawing
             {
                 if (_polygonmode != value) {
                     _polygonmode = value;
-                    OpenGL11.glPolygonMode(OpenGL11.GL_FRONT_AND_BACK, (uint) value);
+                    OpenGL.glPolygonMode(OpenGL.GL_FRONT_AND_BACK, (uint) value);
                 }
             }
         }
@@ -67,7 +68,7 @@ namespace Lamby2D.Drawing
             {
                 if (_drawcolor != value) {
                     _drawcolor = value;
-                    OpenGL11.glColor4f(value.R, value.G, value.B, value.A);
+                    OpenGL.glColor4f(value.R, value.G, value.B, value.A);
                 }
             }
         }
@@ -76,29 +77,29 @@ namespace Lamby2D.Drawing
         // Public
         public void Clear()
         {
-            OpenGL11.glClear(OpenGL11.GL_COLOR_BUFFER_BIT);
-            OpenGL11.glLoadIdentity();
+            OpenGL.glClear(OpenGL.GL_COLOR_BUFFER_BIT);
+            OpenGL.glLoadIdentity();
             if (this.Camera != null && this.Camera.Position.IsNaN() == false) {
-                OpenGL11.glTranslatef(-this.Camera.Position.X, -this.Camera.Position.Y, 0);
+                OpenGL.glTranslatef(-this.Camera.Position.X, -this.Camera.Position.Y, 0);
             }
         }
         public void Flush()
         {
-            OpenGL11.glFlush();
+            OpenGL.glFlush();
             GDI32.SwapBuffers(this.GraphicsContext.DrawingContext);
         }
         public Texture2D CreateTexture(uint width, uint height, TextureFormat format, byte[] pixels)
         {
             uint[] textures = new uint[] { 0 };
 
-            OpenGL11.glGenTextures(1, Marshal.UnsafeAddrOfPinnedArrayElement(textures, 0));
-            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, textures[0]);
-            OpenGL11.glTexParameteri(OpenGL11.GL_TEXTURE_2D, OpenGL11.GL_TEXTURE_WRAP_S, (int) OpenGL11.GL_REPEAT);
-            OpenGL11.glTexParameteri(OpenGL11.GL_TEXTURE_2D, OpenGL11.GL_TEXTURE_WRAP_T, (int) OpenGL11.GL_REPEAT);
-            OpenGL11.glTexParameteri(OpenGL11.GL_TEXTURE_2D, OpenGL11.GL_TEXTURE_MAG_FILTER, (int) OpenGL11.GL_LINEAR);
-            OpenGL11.glTexParameteri(OpenGL11.GL_TEXTURE_2D, OpenGL11.GL_TEXTURE_MIN_FILTER, (int) OpenGL11.GL_LINEAR);
-            OpenGL11.glTexImage2D(OpenGL11.GL_TEXTURE_2D, 0, (int) format, (int) width, (int) height, 0, (uint) format, OpenGL11.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(pixels, 0));
-            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, 0);
+            OpenGL.glGenTextures(1, Marshal.UnsafeAddrOfPinnedArrayElement(textures, 0));
+            OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, textures[0]);
+            OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_S, (int) OpenGL.GL_REPEAT);
+            OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_T, (int) OpenGL.GL_REPEAT);
+            OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, (int) OpenGL.GL_LINEAR);
+            OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, (int) OpenGL.GL_LINEAR);
+            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, (int) format, (int) width, (int) height, 0, (uint) format, OpenGL.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(pixels, 0));
+            OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, 0);
 
             Texture2D result = new Texture2D(textures[0]) { Width = (int) width, Height = (int) height };
             return result;
@@ -144,20 +145,20 @@ namespace Lamby2D.Drawing
                 return;
             }
 
-            OpenGL11.glPushMatrix();
+            OpenGL.glPushMatrix();
             {
-                OpenGL11.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
-                OpenGL11.glScalef(drawable.Scale.X * drawable.Width, drawable.Scale.Y * drawable.Height, 1);
-                OpenGL11.glRotatef(drawable.Rotation, 0, 0, 1);
-                OpenGL11.glTranslatef(-drawable.Center.X, -drawable.Center.Y, 0);
-                OpenGL11.glColor4f(drawable.Color.R, drawable.Color.G, drawable.Color.B, drawable.Color.A);
+                OpenGL.glTranslatef(drawable.Position.X, drawable.Position.Y, 0);
+                OpenGL.glScalef(drawable.Scale.X * drawable.Width, drawable.Scale.Y * drawable.Height, 1);
+                OpenGL.glRotatef(drawable.Rotation, 0, 0, 1);
+                OpenGL.glTranslatef(-drawable.Center.X, -drawable.Center.Y, 0);
+                OpenGL.glColor4f(drawable.Color.R, drawable.Color.G, drawable.Color.B, drawable.Color.A);
                 if (drawable.DrawableKind == DrawableKind.Texture) {
                     draw(drawable.Texture);
                 } else {
                     draw(drawable.Sprite);
                 }
             }
-            OpenGL11.glPopMatrix();
+            OpenGL.glPopMatrix();
         }
         public Vector2 ScreenToWorld(Point screen)
         {
@@ -182,133 +183,153 @@ namespace Lamby2D.Drawing
         }
         public void DrawCircle(Vector2 position, float radius)
         {
-            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
-            OpenGL11.glPushMatrix();
+            OpenGL.glDisable(OpenGL.GL_TEXTURE_2D);
+            OpenGL.glPushMatrix();
             {
-                OpenGL11.glTranslatef(position.X, position.Y, 0);
-                OpenGL11.glBegin(OpenGL11.GL_TRIANGLE_FAN);
+                OpenGL.glTranslatef(position.X, position.Y, 0);
+                OpenGL.glBegin(OpenGL.GL_TRIANGLE_FAN);
                 {
                     int steps = (int) (radius * 2 / 3);
                     double angle = 0;
                     double anglestep = Math.PI * 2 / steps;
-                    OpenGL11.glVertex2f(0, 0);
+                    OpenGL.glVertex2f(0, 0);
                     for (int step = 0; step <= steps; step++) {
-                        OpenGL11.glVertex2f((float) Math.Cos(angle) * radius, (float) Math.Sin(angle) * radius);
+                        OpenGL.glVertex2f((float) Math.Cos(angle) * radius, (float) Math.Sin(angle) * radius);
                         angle += anglestep;
                     }
                 }
-                OpenGL11.glEnd();
+                OpenGL.glEnd();
             }
-            OpenGL11.glPopMatrix();
-            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL.glPopMatrix();
+            OpenGL.glEnable(OpenGL.GL_TEXTURE_2D);
         }
         public void DrawRectangle(Vector2 position, float rotation, float width, float height)
         {
-            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
-            OpenGL11.glPushMatrix();
+            OpenGL.glDisable(OpenGL.GL_TEXTURE_2D);
+            OpenGL.glPushMatrix();
             {
-                OpenGL11.glTranslatef(position.X, position.Y, 0);
-                OpenGL11.glScalef(width, height, 1);
-                OpenGL11.glRotatef(rotation, 0, 0, 1);
-                OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
+                OpenGL.glTranslatef(position.X, position.Y, 0);
+                OpenGL.glScalef(width, height, 1);
+                OpenGL.glRotatef(rotation, 0, 0, 1);
+                OpenGL.glDrawArrays(OpenGL.GL_TRIANGLES, 0, 6);
             }
-            OpenGL11.glPopMatrix();
-            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL.glPopMatrix();
+            OpenGL.glEnable(OpenGL.GL_TEXTURE_2D);
         }
         public void DrawLine(Vector2 start, Vector2 end)
         {
-            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
-            OpenGL11.glBegin(OpenGL11.GL_LINES);
+            OpenGL.glDisable(OpenGL.GL_TEXTURE_2D);
+            OpenGL.glBegin(OpenGL.GL_LINES);
             {
-                OpenGL11.glVertex2f(start.X, start.Y);
-                OpenGL11.glVertex2f(start.X, start.Y);
+                OpenGL.glVertex2f(start.X, start.Y);
+                OpenGL.glVertex2f(start.X, start.Y);
             }
-            OpenGL11.glEnd();
-            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL.glEnd();
+            OpenGL.glEnable(OpenGL.GL_TEXTURE_2D);
         }
         public void DrawLine(Vector2 start, Vector2 end, float linewidth)
         {
             if (linewidth == 1) {
                 this.DrawLine(start, end);
             } else {
-                OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
-                OpenGL11.glLineWidth(linewidth);
-                OpenGL11.glBegin(OpenGL11.GL_LINES);
+                OpenGL.glDisable(OpenGL.GL_TEXTURE_2D);
+                OpenGL.glLineWidth(linewidth);
+                OpenGL.glBegin(OpenGL.GL_LINES);
                 {
-                    OpenGL11.glVertex2f(start.X, start.Y);
-                    OpenGL11.glVertex2f(start.X, start.Y);
+                    OpenGL.glVertex2f(start.X, start.Y);
+                    OpenGL.glVertex2f(start.X, start.Y);
                 }
-                OpenGL11.glEnd();
-                OpenGL11.glLineWidth(1);
-                OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+                OpenGL.glEnd();
+                OpenGL.glLineWidth(1);
+                OpenGL.glEnable(OpenGL.GL_TEXTURE_2D);
             }
         }
         public void DrawRectangleBorder(Vector2 position, float rotation, float width, float height, float linewidth)
         {
-            OpenGL11.glDisable(OpenGL11.GL_TEXTURE_2D);
-            OpenGL11.glLineWidth(linewidth);
-            OpenGL11.glPushMatrix();
+            OpenGL.glDisable(OpenGL.GL_TEXTURE_2D);
+            OpenGL.glLineWidth(linewidth);
+            OpenGL.glPushMatrix();
             {
-                OpenGL11.glRotatef(rotation, 0, 0, 1);
-                OpenGL11.glBegin(OpenGL11.GL_LINE_LOOP);
+                OpenGL.glRotatef(rotation, 0, 0, 1);
+                OpenGL.glBegin(OpenGL.GL_LINE_LOOP);
                 {
-                    OpenGL11.glVertex2f(position.X, position.Y);
-                    OpenGL11.glVertex2f(position.X + width, position.Y);
-                    OpenGL11.glVertex2f(position.X + width, position.Y + height);
-                    OpenGL11.glVertex2f(position.X, position.Y + height);
+                    OpenGL.glVertex2f(position.X, position.Y);
+                    OpenGL.glVertex2f(position.X + width, position.Y);
+                    OpenGL.glVertex2f(position.X + width, position.Y + height);
+                    OpenGL.glVertex2f(position.X, position.Y + height);
                 }
-                OpenGL11.glEnd();
+                OpenGL.glEnd();
             }
-            OpenGL11.glPopMatrix();
-            OpenGL11.glLineWidth(1);
-            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
+            OpenGL.glPopMatrix();
+            OpenGL.glLineWidth(1);
+            OpenGL.glEnable(OpenGL.GL_TEXTURE_2D);
         }
         public void PushMatrix()
         {
-            OpenGL11.glPushMatrix();
+            OpenGL.glPushMatrix();
         }
         public void PopMatrix()
         {
-            OpenGL11.glPopMatrix();
+            OpenGL.glPopMatrix();
         }
         public void Translate(Vector2 value)
         {
-            OpenGL11.glTranslatef(value.X, value.Y, 0);
+            OpenGL.glTranslatef(value.X, value.Y, 0);
+        }
+        public void Translate(Point value)
+        {
+            OpenGL.glTranslatef(value.X, value.Y, 0);
         }
         public void Translate(float x, float y)
         {
-            OpenGL11.glTranslatef(x, y, 0);
+            OpenGL.glTranslatef(x, y, 0);
         }
         public void Rotate(float rotation)
         {
-            OpenGL11.glRotatef(rotation, 0, 0, 1);
+            OpenGL.glRotatef(rotation, 0, 0, 1);
         }
         public void Scale(Vector2 value)
         {
-            OpenGL11.glScalef(value.X, value.Y, 1);
+            OpenGL.glScalef(value.X, value.Y, 1);
         }
         public void Scale(float x, float y)
         {
-            OpenGL11.glScalef(x, y, 1);
+            OpenGL.glScalef(x, y, 1);
         }
         public void Scale(float xy)
         {
-            OpenGL11.glScalef(xy, xy, 1);
+            OpenGL.glScalef(xy, xy, 1);
         }
         public void IdentityMatrix()
         {
-            OpenGL11.glLoadIdentity();
+            OpenGL.glLoadIdentity();
         }
+        public void Scissor(int x, int y, int w, int h)
+        {
+            OpenGL.glScissor(x, y, w, h);
+        }
+        [Obsolete("not implemented", true)]
+        public void Print(string text, Font font, Vector2 position) { }
+        [Obsolete("not implemented", true)]
+        public void Print(string text, Font font, Point position) { }
+        [Obsolete("not implemented", true)]
+        public void Print(string text, Font font) { }
+        [Obsolete("not implemented", true)]
+        public void Print(string text, Vector2 position) { }
+        [Obsolete("not implemented", true)]
+        public void Print(string text, Point position) { }
+        [Obsolete("not implemented", true)]
+        public void Print(string text) { }
 
         // Private
         void draw(Texture2D texture)
         {
-            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (texture == null ? 0 : texture.ID));
-            OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
+            OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, (texture == null ? 0 : texture.ID));
+            OpenGL.glDrawArrays(OpenGL.GL_TRIANGLES, 0, 6);
         }
         void draw(Sprite sprite)
         {
-            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, (sprite.Texture == null ? 0 : sprite.Texture.ID));
+            OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, (sprite.Texture == null ? 0 : sprite.Texture.ID));
 
             float fu = (sprite.FrameWidth / (float) sprite.Texture.Width);
             float fv = (sprite.FrameHeight / (float) sprite.Texture.Height);
@@ -339,10 +360,10 @@ namespace Lamby2D.Drawing
             // 0,0
             _texcoords[10] = _texcoords[0];
             _texcoords[11] = _texcoords[1];
-            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _texcoords);
-            OpenGL11.glDrawArrays(OpenGL11.GL_TRIANGLES, 0, 6);
-            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
-            OpenGL11.glVertexPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
+            OpenGL.glTexCoordPointer(2, OpenGL.GL_FLOAT, 0, _texcoords);
+            OpenGL.glDrawArrays(OpenGL.GL_TRIANGLES, 0, 6);
+            OpenGL.glTexCoordPointer(2, OpenGL.GL_FLOAT, 0, _vertexdata);
+            OpenGL.glVertexPointer(2, OpenGL.GL_FLOAT, 0, _vertexdata);
         }
 
         // Constructors
@@ -359,24 +380,24 @@ namespace Lamby2D.Drawing
             this.GraphicsContext.Window.Show();
             this.Camera = new Camera();
 
-            OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
-            OpenGL11.glLoadIdentity();
-            OpenGL11.glOrtho(0, this.GraphicsContext.Width, this.GraphicsContext.Height, 0, 1, -1);
-            OpenGL11.glMatrixMode(OpenGL11.GL_MODELVIEW);
-            OpenGL11.glLoadIdentity();
+            OpenGL.glMatrixMode(OpenGL.GL_PROJECTION);
+            OpenGL.glLoadIdentity();
+            OpenGL.glOrtho(0, this.GraphicsContext.Width, this.GraphicsContext.Height, 0, 1, -1);
+            OpenGL.glMatrixMode(OpenGL.GL_MODELVIEW);
+            OpenGL.glLoadIdentity();
 
-            OpenGL11.glEnable(OpenGL11.GL_BLEND);
-            OpenGL11.glEnable(OpenGL11.GL_TEXTURE_2D);
-            OpenGL11.glBlendFunc(OpenGL11.GL_SRC_ALPHA, OpenGL11.GL_ONE_MINUS_SRC_ALPHA);
-            OpenGL11.glEnableClientState(OpenGL11.GL_VERTEX_ARRAY);
-            OpenGL11.glEnableClientState(OpenGL11.GL_TEXTURE_COORD_ARRAY);
+            OpenGL.glEnable(OpenGL.GL_BLEND);
+            OpenGL.glEnable(OpenGL.GL_TEXTURE_2D);
+            OpenGL.glBlendFunc(OpenGL.GL_SRC_ALPHA, OpenGL.GL_ONE_MINUS_SRC_ALPHA);
+            OpenGL.glEnableClientState(OpenGL.GL_VERTEX_ARRAY);
+            OpenGL.glEnableClientState(OpenGL.GL_TEXTURE_COORD_ARRAY);
 
-            OpenGL11.glClear(OpenGL11.GL_COLOR_BUFFER_BIT);
-            OpenGL11.glFlush();
+            OpenGL.glClear(OpenGL.GL_COLOR_BUFFER_BIT);
+            OpenGL.glFlush();
             GDI32.SwapBuffers(this.GraphicsContext.DrawingContext);
 
-            OpenGL11.glVertexPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
-            OpenGL11.glTexCoordPointer(2, OpenGL11.GL_FLOAT, 0, _vertexdata);
+            OpenGL.glVertexPointer(2, OpenGL.GL_FLOAT, 0, _vertexdata);
+            OpenGL.glTexCoordPointer(2, OpenGL.GL_FLOAT, 0, _vertexdata);
         }
     }
 }

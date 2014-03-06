@@ -41,10 +41,21 @@
   <ItemGroup>
     <Compile Include="DevIL.cs" />
     <Compile Include="FreeType\FreeType.cs" />
+    <Compile Include="FreeType\FT_BBox.cs" />
     <Compile Include="FreeType\FT_Bitmap.cs" />
+    <Compile Include="FreeType\FT_Face.cs" />
+    <Compile Include="FreeType\FT_Generic.cs" />
+    <Compile Include="FreeType\FT_GlyphSlot.cs" />
+    <Compile Include="FreeType\FT_Glyph_Format.cs" />
+    <Compile Include="FreeType\FT_Glyph_Metrics.cs" />
+    <Compile Include="FreeType\FT_ListRec.cs" />
+    <Compile Include="FreeType\FT_Outline.cs" />
+    <Compile Include="FreeType\FT_Render_Mode.cs" />
+    <Compile Include="FreeType\FT_Vector.cs" />
     <Compile Include="GDI32.cs" />
     <Compile Include="Kernel32.cs" />
     <Compile Include="MSG.cs" />
+    <Compile Include="OpenGL\OpenGL.cs" />
     <Compile Include="PixelFormatDescriptor.cs" />
     <Compile Include="POINT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

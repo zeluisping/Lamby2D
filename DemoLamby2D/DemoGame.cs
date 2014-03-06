@@ -86,7 +86,7 @@ namespace DemoLamby2D
         // Constructors
         public DemoGame()
         {
-            this.Graphics.BackgroundColor = Colors.Orange;
+            this.Graphics.BackgroundColor = Colors.DimGray;
             this.Graphics.GraphicsContext.Resize(640, 360);
             this.Graphics.GraphicsContext.Title = "Demo Game";
             this.Graphics.GraphicsContext.ShowCursor = false;

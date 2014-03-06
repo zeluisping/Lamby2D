@@ -92,9 +92,9 @@ namespace Lamby2D.Core
             get { return (float) Math.Sqrt(this.X * this.X + this.Y * this.Y); }
         }
         /// <summary>
-        /// Get an inverted version of the point.
+        /// Get a negated version of the point.
         /// </summary>
-        public Point Inverted
+        public Point Negated
         {
             get { return new Point(-_x, -_y); }
         }
@@ -133,9 +133,9 @@ namespace Lamby2D.Core
             return "(" + _x + ", " + _y + ")";
         }
         /// <summary>
-        /// Inverts the components of the point.
+        /// Negates the components of the point.
         /// </summary>
-        public void Invert()
+        public void Negate()
         {
             _x = -_x;
             _y = -_y;

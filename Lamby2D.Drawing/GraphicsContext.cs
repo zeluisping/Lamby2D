@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Lamby2D.Native;
-using Lamby2D.OpenGL;
+using Lamby2D.Native.OpenGL;
 
 namespace Lamby2D.Drawing
 {
@@ -50,8 +50,8 @@ namespace Lamby2D.Drawing
         public void Dispose()
         {
             if (_rc != IntPtr.Zero) {
-                OpenGL11.wglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
-                OpenGL11.wglDeleteContext(_rc);
+                OpenGL.wglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
+                OpenGL.wglDeleteContext(_rc);
                 User32.ReleaseDC(_window.Handle, _dc);
 
                 _rc = IntPtr.Zero;
@@ -69,17 +69,17 @@ namespace Lamby2D.Drawing
             _window.Width = width;
             _window.Height = height;
 
-            OpenGL11.glViewport(0, 0, width, height);
-            OpenGL11.glMatrixMode(OpenGL11.GL_PROJECTION);
-            OpenGL11.glLoadIdentity();
-            OpenGL11.glOrtho(0, this.Width, this.Height, 0, 1, -1);
-            OpenGL11.glMatrixMode(OpenGL11.GL_MODELVIEW);
+            OpenGL.glViewport(0, 0, width, height);
+            OpenGL.glMatrixMode(OpenGL.GL_PROJECTION);
+            OpenGL.glLoadIdentity();
+            OpenGL.glOrtho(0, this.Width, this.Height, 0, 1, -1);
+            OpenGL.glMatrixMode(OpenGL.GL_MODELVIEW);
         }
 
         // Constructors
         public GraphicsContext()
         {
-            OpenGL11.LoadLibrary();
+            OpenGL.LoadLibrary();
 
             _windowclosed = false;
             _window = new Window() {
@@ -99,12 +99,12 @@ namespace Lamby2D.Drawing
 
             int pixel = GDI32.ChoosePixelFormat(_dc, _pfd);
             GDI32.SetPixelFormat(_dc, pixel, _pfd);
-            OpenGL11.wglDescribePixelFormat(_dc, pixel, (uint) _pfd.Size, _pfd);
-            _rc = OpenGL11.wglCreateContext(_dc);
+            OpenGL.wglDescribePixelFormat(_dc, pixel, (uint) _pfd.Size, _pfd);
+            _rc = OpenGL.wglCreateContext(_dc);
             if (_rc == IntPtr.Zero) {
                 throw new Exception("Failed to create rendering context.");
             }
-            OpenGL11.wglMakeCurrent(_dc, _rc);
+            OpenGL.wglMakeCurrent(_dc, _rc);
         }
     }
 }

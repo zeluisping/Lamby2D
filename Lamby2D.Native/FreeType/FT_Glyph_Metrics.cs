@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 namespace Lamby2D.Native.FreeType
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FT_Bitmap
+    public struct FT_Glyph_Metrics
     {
-        public int rows;
         public int width;
-        public int pitch;
-        public byte[] buffer;
-        public short num_grays;
-        public sbyte pixel_mode;
-        public sbyte palette_mode;
-        public IntPtr palette;
+        public int height;
+
+        public int horiBearingX;
+        public int horiBearingY;
+        public int horiAdvance;
+
+        public int vertBearingX;
+        public int vertBearingY;
+        public int vertAdvance;
     }
 }

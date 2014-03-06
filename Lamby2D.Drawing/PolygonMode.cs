@@ -1,4 +1,4 @@
-﻿using Lamby2D.OpenGL;
+﻿using Lamby2D.Native.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +15,14 @@ namespace Lamby2D.Drawing
         /// <summary>
         /// Fill the inside of polygons.
         /// </summary>
-        Fill = OpenGL11.GL_FILL,
+        Fill = OpenGL.GL_FILL,
         /// <summary>
         /// Draw the outline of polygons.
         /// </summary>
-        Line = OpenGL11.GL_LINE,
+        Line = OpenGL.GL_LINE,
         /// <summary>
         /// Draw the vertices of polygons.
         /// </summary>
-        Point = OpenGL11.GL_POINT,
+        Point = OpenGL.GL_POINT,
     }
 }

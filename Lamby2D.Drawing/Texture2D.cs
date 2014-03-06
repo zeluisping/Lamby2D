@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Lamby2D.Native.OpenGL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Lamby2D.OpenGL;
 
 namespace Lamby2D.Drawing
 {
@@ -51,7 +51,7 @@ namespace Lamby2D.Drawing
         {
             if (this.ID != 0) {
                 uint[] textures = new uint[1] { this.ID };
-                OpenGL11.glDeleteTextures(1, Marshal.UnsafeAddrOfPinnedArrayElement(textures, 0));
+                OpenGL.glDeleteTextures(1, Marshal.UnsafeAddrOfPinnedArrayElement(textures, 0));
                 this.ID = 0;
             }
         }
