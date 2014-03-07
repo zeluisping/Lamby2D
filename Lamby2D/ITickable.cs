@@ -11,6 +11,10 @@ namespace Lamby2D
     /// </summary>
     public interface ITickable
     {
+        /// <summary>
+        /// The function called each frame to update the object.
+        /// </summary>
+        /// <param name="DeltaTime">The time elapsed since the last frame.</param>
         void Update(float DeltaTime);
     }
 }

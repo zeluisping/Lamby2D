@@ -8,6 +8,9 @@ using Lamby2D.Input;
 
 namespace Lamby2D
 {
+    /// <summary>
+    /// Handles all input events and callbacks.
+    /// </summary>
     public class GameInput
     {
         // Variables
@@ -20,6 +23,9 @@ namespace Lamby2D
         IMouseAware _mouseawarehover;
 
         // Properties
+        /// <summary>
+        /// Get the current mouse position relative to the window.
+        /// </summary>
         public Point MousePosition
         {
             get { return _mousepos; }
@@ -36,10 +42,25 @@ namespace Lamby2D
         }
 
         // Events
+        /// <summary>
+        /// Called whenever the state of a key changes to pressed.
+        /// </summary>
         public event KeyEventHandler KeyDown;
+        /// <summary>
+        /// Called whenever the state of a key changes to released.
+        /// </summary>
         public event KeyEventHandler KeyUp;
+        /// <summary>
+        /// Called whenever the state of a mouse button changes to pressed.
+        /// </summary>
         public event MouseButtonEventHandler MouseDown;
+        /// <summary>
+        /// Called whenever the state of a mouse button changes to released.
+        /// </summary>
         public event MouseButtonEventHandler MouseUp;
+        /// <summary>
+        /// Called whenever the mouse moves within the window.
+        /// </summary>
         public event MouseMotionEventHandler MouseMotion;
 
         // Handlers
@@ -108,6 +129,11 @@ namespace Lamby2D
         }
 
         // Public
+        /// <summary>
+        /// Check if a key is being pressed.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>True if the key is being pressed, otherwise false.</returns>
         public bool IsKeyDown(KeyCode key)
         {
             if ((int) key < 1 || (int) key > 254) {
@@ -115,6 +141,11 @@ namespace Lamby2D
             }
             return _keystates[(int) key];
         }
+        /// <summary>
+        /// Check if a mouse button is being pressed.
+        /// </summary>
+        /// <param name="button">The mouse button.</param>
+        /// <returns>True if the mouse button is being pressed, otherwise false.</returns>
         public bool IsButtonDown(MouseButton button)
         {
             return _mousestates[(int) button];
@@ -145,7 +176,7 @@ namespace Lamby2D
         }
 
         // Constructors
-        public GameInput()
+        internal GameInput()
         {
             _keystates = new bool[255];
             _mousestates = new bool[5];

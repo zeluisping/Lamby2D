@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace Lamby2D
 {
-    public class Application
+    /// <summary>
+    /// Provides a clean method for starting a game.
+    /// </summary>
+    public sealed class Application
     {
-        // Public
+        /// <summary>
+        /// Starts a game of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The game type.</typeparam>
         public void Run<T>() where T : Game, new()
         {
             using (T game = new T()) {
@@ -16,7 +22,9 @@ namespace Lamby2D
             }
         }
 
-        // Constructors
+        /// <summary>
+        /// Creates an instance of a class that provides a clean method for starting a game.
+        /// </summary>
         public Application()
         {
         }
