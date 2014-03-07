@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lamby2D.UI
 {
-    public class Control : BindingObject, IMouseAware
+    public class Control : BindingObject
     {
         // Binding properties
         public static readonly BindingProperty ZIndexProperty =
@@ -32,7 +32,6 @@ namespace Lamby2D.UI
             BindingProperty.Create(typeof(int), typeof(Control), 30);
         public static readonly BindingProperty HeightProperty =
             BindingProperty.Create(typeof(int), typeof(Control), 30);
-
         
         // Properties
         public int ZIndex
@@ -99,32 +98,32 @@ namespace Lamby2D.UI
             return (position.X >= this.Position.X && position.X <= this.Position.X + this.Width &&
                     position.Y >= this.Position.Y && position.Y <= this.Position.Y + this.Height);
         }
-        public virtual void OnMouseDown(MouseButtonEventArgs e)
+
+        // Internal
+        protected internal virtual void OnMouseDown(MouseButtonEventArgs e)
         {
             if (this.MouseDown != null) {
                 this.MouseDown(this, e);
             }
         }
-        public virtual void OnMouseUp(MouseButtonEventArgs e)
+        protected internal virtual void OnMouseUp(MouseButtonEventArgs e)
         {
             if (this.MouseUp != null) {
                 this.MouseUp(this, e);
             }
         }
-        public virtual void OnMouseEnter(MouseMotionEventArgs e)
+        protected internal virtual void OnMouseEnter(MouseMotionEventArgs e)
         {
             if (this.MouseEnter != null) {
                 this.MouseEnter(this, e);
             }
         }
-        public virtual void OnMouseLeave(MouseMotionEventArgs e)
+        protected internal virtual void OnMouseLeave(MouseMotionEventArgs e)
         {
             if (this.MouseLeave != null) {
                 this.MouseLeave(this, e);
             }
         }
-
-        // Internal
         protected internal virtual void Draw(Graphics graphics)
         {
             graphics.DrawColor = this.Background;

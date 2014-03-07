@@ -9,17 +9,17 @@ namespace Lamby2D.UI
 {
     public class Button : ContentControl
     {
-        // Public
-        public override void OnMouseEnter(Input.MouseMotionEventArgs e)
+        // Protected
+        protected internal override void OnMouseEnter(Input.MouseMotionEventArgs e)
         {
             this.Background = Colors.DarkGray;
             base.OnMouseEnter(e);
         }
-        public override void OnMouseLeave(Input.MouseMotionEventArgs e)
+        protected internal override void OnMouseLeave(Input.MouseMotionEventArgs e)
         {
             base.OnMouseLeave(e);
         }
-        public override void OnMouseDown(Input.MouseButtonEventArgs e)
+        protected internal override void OnMouseDown(Input.MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
         }

@@ -45,7 +45,7 @@ namespace Lamby2D
         protected IEnumerable Tickables { get { return _tickables.AsEnumerable(); } }
         protected IEnumerable Drawables { get { return _drawables.AsEnumerable(); } }
         protected bool bQuit { get; private set; }
-        private UIManager UIManager { get; set; }
+
 
         // Public
         public virtual void Update(float DeltaTime)
@@ -192,9 +192,6 @@ namespace Lamby2D
             this.Graphics = new Graphics();
             this.Input = new GameInput();
             this.Physics = new GamePhysics();
-            this.UIManager = new UIManager();
-
-            // todo: UIManager stuff; make it IMouseAware
         }
     }
 }

@@ -11,8 +11,6 @@ namespace Lamby2D.Levels
     public class TileGridMap
     {
         // Variables
-        int _tilewidth;
-        int _tileheight;
         TileGrid _grid;
 
         // Properties
@@ -36,6 +34,8 @@ namespace Lamby2D.Levels
         // Public
         public void Draw(Graphics g)
         {
+            // todo: only draw visible tiles
+
             g.PushMatrix();
             g.Translate(this.Position);
             for (int y = 0; y < this.Height; y++) {

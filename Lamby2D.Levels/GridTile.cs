@@ -15,7 +15,7 @@ namespace Lamby2D.Levels
         public Texture2D Texture { get; set; }
         public Sprite Sprite { get; set; }
         /// <summary>
-        /// Not used. Dictated by <see cref="Lamby2D.Maps.TileGrid"/>.
+        /// Not used; always <see cref="Vector2.Zero"/>. Actual position dictated by <see cref="Lamby2D.Maps.TileGrid"/>.
         /// </summary>
         public Vector2 Position { get { return Vector2.Zero; } }
         public Vector2 Center { get; set; }

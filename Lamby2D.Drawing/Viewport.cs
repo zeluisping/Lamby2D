@@ -24,6 +24,20 @@ namespace Lamby2D.Drawing
         public int Width { get; private set; }
         public int Height { get; private set; }
 
+        // Public
+        public override bool Equals(object obj)
+        {
+            return (obj is Viewport && this == (Viewport) obj);
+        }
+        public override string ToString()
+        {
+            return "(" + this.X + ", " + this.Y + ", " + this.Width + ", " + this.Height + ")";
+        }
+        public override int GetHashCode()
+        {
+            return this.X ^ this.Y ^ this.Width ^ this.Height ^ base.GetHashCode();
+        }
+
         // Constructors
         public Viewport(int x, int y, int width, int height)
             : this()

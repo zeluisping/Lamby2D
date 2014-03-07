@@ -12,7 +12,7 @@ namespace Lamby2D.UI
     /// <summary>
     /// Handles all UI elements.
     /// </summary>
-    public sealed class UIManager
+    internal sealed class UIManager
     {
         // Properties
         public ContentControl Root { get; set; }
