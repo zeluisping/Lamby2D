@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RTSDemo
+namespace MinimalisticGame
 {
-    class RTSDemoGame : Game
+    class MinimalisticGame : Game
     {
     }
 }

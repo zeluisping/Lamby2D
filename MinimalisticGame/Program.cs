@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RTSDemo
+namespace MinimalisticGame
 {
     class Program
     {
         static void Main(string[] args)
         {
-            new Application().Run<RTSDemoGame>();
+            new Application().Run<MinimalisticGame>();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Lamby2D.Native.FreeType;
-using Lamby2D.OpenGL;
+using Lamby2D.Native.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,42 +66,42 @@ namespace Lamby2D.Typography
                 }
             }
 
-            OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, texbase[character]);
-            OpenGL11.glTexParameteri(OpenGL11.GL_TEXTURE_2D, OpenGL11.GL_TEXTURE_MAG_FILTER, (int) OpenGL11.GL_LINEAR);
-            OpenGL11.glTexParameteri(OpenGL11.GL_TEXTURE_2D, OpenGL11.GL_TEXTURE_MIN_FILTER, (int) OpenGL11.GL_LINEAR);
-            OpenGL11.glTexImage2D(OpenGL11.GL_TEXTURE_2D, 0, (int) OpenGL11.GL_RGBA, width, height, 0, OpenGL11.GL_LUMINANCE_ALPHA, OpenGL11.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(expanded_data, 0));
+            OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, texbase[character]);
+            OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, (int) OpenGL.GL_LINEAR);
+            OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, (int) OpenGL.GL_LINEAR);
+            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, (int) OpenGL.GL_RGBA, width, height, 0, OpenGL.GL_LUMINANCE_ALPHA, OpenGL.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(expanded_data, 0));
 
-            OpenGL11.glNewList(listbase + character, OpenGL11.GL_COMPILE);
+            OpenGL.glNewList(listbase + character, OpenGL.GL_COMPILE);
             {
-                OpenGL11.glBindTexture(OpenGL11.GL_TEXTURE_2D, texbase[character]);
-                OpenGL11.glPushMatrix();
+                OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, texbase[character]);
+                OpenGL.glPushMatrix();
                 {
-                    OpenGL11.glTranslatef(face.glyph.bitmap_left, face.glyph.bitmap_top - bitmap.rows, 0);
+                    OpenGL.glTranslatef(face.glyph.bitmap_left, face.glyph.bitmap_top - bitmap.rows, 0);
 
                     float x = (float) bitmap.width / (float) width;
                     float y = (float) bitmap.rows / (float) height;
 
-                    OpenGL11.glBegin(OpenGL11.GL_QUADS);
+                    OpenGL.glBegin(OpenGL.GL_QUADS);
                     {
-                        OpenGL11.glTexCoord2f(0, 0);
-                        OpenGL11.glVertex2f(0, bitmap.rows);
+                        OpenGL.glTexCoord2f(0, 0);
+                        OpenGL.glVertex2f(0, bitmap.rows);
 
-                        OpenGL11.glTexCoord2f(0, y);
-                        OpenGL11.glTexCoord2f(0, 0);
+                        OpenGL.glTexCoord2f(0, y);
+                        OpenGL.glTexCoord2f(0, 0);
 
-                        OpenGL11.glTexCoord2f(x, y);
-                        OpenGL11.glVertex2f(bitmap.width, 0);
+                        OpenGL.glTexCoord2f(x, y);
+                        OpenGL.glVertex2f(bitmap.width, 0);
 
-                        OpenGL11.glTexCoord2f(x, 0);
-                        OpenGL11.glVertex2f(bitmap.width, bitmap.rows);
+                        OpenGL.glTexCoord2f(x, 0);
+                        OpenGL.glVertex2f(bitmap.width, bitmap.rows);
                     }
-                    OpenGL11.glEnd();
+                    OpenGL.glEnd();
                 }
-                OpenGL11.glPopMatrix();
+                OpenGL.glPopMatrix();
 
-                OpenGL11.glTranslatef(face.glyph.advance.x >> 6, 0, 0);
+                OpenGL.glTranslatef(face.glyph.advance.x >> 6, 0, 0);
             }
-            OpenGL11.glEndList();
+            OpenGL.glEndList();
         }
 
         // Variables
