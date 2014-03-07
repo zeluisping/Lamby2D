@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\TileGridMapEditor.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,9 +56,17 @@
       <Project>{b9492dd0-6175-42d7-8a91-70e6180b5b8c}</Project>
       <Name>Lamby2D.Input</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lamby2D.Levels\Lamby2D.Maps.csproj">
+      <Project>{0e1f907a-0dff-4e75-a053-98c566038874}</Project>
+      <Name>Lamby2D.Maps</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lamby2D.Physics\Lamby2D.Physics.csproj">
       <Project>{95351723-c2eb-486c-9e19-396bdce653ac}</Project>
       <Name>Lamby2D.Physics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lamby2D.UI\Lamby2D.UI.csproj">
+      <Project>{c3a7a023-a76d-4d3e-803b-42ba3d0bd21f}</Project>
+      <Name>Lamby2D.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lamby2D\Lamby2D.csproj">
       <Project>{f89d112d-2fdd-43e8-82bb-91ce0a66ab87}</Project>

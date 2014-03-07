@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lamby2D.Levels
 {
-    public class TileGridLevel
+    public class TileGridMap
     {
         // Variables
         int _tilewidth;
@@ -52,7 +52,7 @@ namespace Lamby2D.Levels
         }
 
         // Constructors
-        public TileGridLevel(int width, int height)
+        public TileGridMap(int width, int height)
         {
             this.Grid = new TileGrid(width, height);
         }

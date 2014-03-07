@@ -51,6 +51,7 @@
     <Compile Include="SpriteAnimation.cs" />
     <Compile Include="Texture2D.cs" />
     <Compile Include="TextureFormat.cs" />
+    <Compile Include="Viewport.cs" />
     <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>

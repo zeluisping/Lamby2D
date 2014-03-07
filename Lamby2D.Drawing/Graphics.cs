@@ -36,6 +36,7 @@ namespace Lamby2D.Drawing
         Color _backgroundcolor;
         PolygonMode _polygonmode;
         Color _drawcolor;
+        Viewport _viewport;
 
         // Properties
         public GraphicsContext GraphicsContext { get; private set; }
@@ -73,6 +74,17 @@ namespace Lamby2D.Drawing
             }
         }
         public ICamera Camera { get; set; }
+        public Viewport Viewport
+        {
+            get { return _viewport; }
+            set
+            {
+                if (_viewport != value) {
+                    _viewport = value;
+                    OpenGL.glViewport(value.X, value.Y, value.Width, value.Height);
+                }
+            }
+        }
 
         // Public
         public void Clear()
@@ -379,6 +391,7 @@ namespace Lamby2D.Drawing
             this.DrawColor = Colors.White;
             this.GraphicsContext.Window.Show();
             this.Camera = new Camera();
+            this.Viewport = new Viewport(0, 0, this.GraphicsContext.Width, this.GraphicsContext.Height);
 
             OpenGL.glMatrixMode(OpenGL.GL_PROJECTION);
             OpenGL.glLoadIdentity();
