@@ -10,7 +10,7 @@ namespace Lamby2D.Physics
     public class GamePhysics
     {
         // Public static
-        public static bool Intersects(IPhysicsObject a, IPhysicsObject b)
+        public static bool Intersects(IStaticPhysicsObject a, IStaticPhysicsObject b)
         {
             if (a == null || a.Collider == null || b == null || b.Collider == null) {
                 return false;
@@ -21,29 +21,16 @@ namespace Lamby2D.Physics
                 CollisionCircle second = (CollisionCircle) b.Collider;
 
                 return (a.Position.Distance(b.Position) < first.Radius + second.Radius);
-            } else if (a.Collider is AABB && b.Collider is AABB) {
-                AABB first = (AABB) a.Collider;
-                AABB second = (AABB) b.Collider;
-
-                Vector2 a_min = new Vector2(a.Position.X, a.Position.Y);
-                Vector2 a_max = new Vector2(a.Position.X + first.Width, a.Position.Y + first.Height);
-                Vector2 b_min = new Vector2(b.Position.X, b.Position.Y);
-                Vector2 b_max = new Vector2(b.Position.X + second.Width, b.Position.Y + second.Height);
-
-                //if (a_min.Y >= b_min.Y && a_min.Y <= bmax.Y))
-                if (a_min.X >= b_min.X && a_min.X <= b_max.X && a_min.Y >= b_min.Y && a_min.Y <= b_max.Y) {
-                    return true;
-                }
             }
 
             throw new NotImplementedException("Missing intersects for pair (" + a.GetType().FullName + ", " + b.GetType().FullName + ").");
         }
 
         // Variables
-        List<IPhysicsObject> _physicsobjects;
+        List<IStaticPhysicsObject> _physicsobjects;
 
         // Properties
-        internal List<IPhysicsObject> PhysicsObjects
+        internal List<IStaticPhysicsObject> PhysicsObjects
         {
             get { return _physicsobjects; }
         }
@@ -56,7 +43,7 @@ namespace Lamby2D.Physics
         // Constructors
         internal GamePhysics()
         {
-            _physicsobjects = new List<IPhysicsObject>();
+            _physicsobjects = new List<IStaticPhysicsObject>();
         }
     }
 }

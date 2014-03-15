@@ -56,10 +56,15 @@ namespace DemoLamby2D
                 }
             }
         }
+        Font font = new Font("fonts/FiraMonoOT-Regular.otf");
         public override void PostUpdate(float DeltaTime)
         {
             // called after everything has updated
             this.Graphics.GraphicsContext.Title = (GamePhysics.Intersects(cursor, imagegameobject) ? "Intersects" : "FPS: " + this.FramesPerSecond);
+
+            this.Graphics.DrawColor = Colors.Black;
+            this.Graphics.Print("", font);
+            this.Graphics.DrawColor = Colors.White;
         }
         public override void PostDraw()
         {

@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="DrawableKind.cs" />
+    <Compile Include="Font.cs" />
+    <Compile Include="FontGlyph.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="GraphicsContext.cs" />
     <Compile Include="ICamera.cs" />

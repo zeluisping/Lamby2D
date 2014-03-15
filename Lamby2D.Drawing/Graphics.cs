@@ -14,25 +14,30 @@ namespace Lamby2D.Drawing
 {
     public class Graphics : IDisposable
     {
+        // Static properties
+        internal static Graphics Current { get; private set; }
+
+        // Static variables
+        static readonly float[] _vertexdata = new float[6 * 2]
+        {
+            0, 0,
+            1, 0,
+            1, 1,
+            1, 1,
+            0, 1,
+            0, 0,
+        };
+        static readonly float[] _texcoords = new float[6 * 2]
+        {
+            0, 0,
+            1, 0,
+            1, 1,
+            1, 1,
+            0, 1,
+            0, 0,
+        };
+
         // Variables
-        readonly float[] _vertexdata = new float[6 * 2]
-        {
-            0, 0,
-            1, 0,
-            1, 1,
-            1, 1,
-            0, 1,
-            0, 0,
-        };
-        float[] _texcoords = new float[6 * 2]
-        {
-            0, 0,
-            1, 0,
-            1, 1,
-            1, 1,
-            0, 1,
-            0, 0,
-        };
         Color _backgroundcolor;
         PolygonMode _polygonmode;
         Color _drawcolor;
@@ -110,7 +115,7 @@ namespace Lamby2D.Drawing
             OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_T, (int) OpenGL.GL_REPEAT);
             OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, (int) OpenGL.GL_LINEAR);
             OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, (int) OpenGL.GL_LINEAR);
-            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, (int) format, (int) width, (int) height, 0, (uint) format, OpenGL.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(pixels, 0));
+            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, (int) format, (int) width, (int) height, 0, (uint) format, OpenGL.GL_UNSIGNED_BYTE, pixels);
             OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, 0);
 
             Texture2D result = new Texture2D(textures[0]) { Width = (int) width, Height = (int) height };
@@ -320,12 +325,22 @@ namespace Lamby2D.Drawing
         {
             OpenGL.glScissor(x, y, w, h);
         }
+        public void Print(string text, Font font)
+        {
+            PushMatrix();
+            {
+                IdentityMatrix();
+                draw(font.LoadGlyph('A').Texture);
+            }
+            PopMatrix();
+        }
+
         [Obsolete("not implemented", true)]
         public void Print(string text, Font font, Vector2 position) { }
         [Obsolete("not implemented", true)]
         public void Print(string text, Font font, Point position) { }
-        [Obsolete("not implemented", true)]
-        public void Print(string text, Font font) { }
+        //[Obsolete("not implemented", true)]
+        //public void Print(string text, Font font) { }
         [Obsolete("not implemented", true)]
         public void Print(string text, Vector2 position) { }
         [Obsolete("not implemented", true)]
@@ -381,6 +396,8 @@ namespace Lamby2D.Drawing
         // Constructors
         public Graphics()
         {
+            Graphics.Current = this;
+
             DevIL.ilInit();
             DevIL.ilEnable(DevIL.IL_ORIGIN_SET);
             DevIL.ilOriginFunc(DevIL.IL_ORIGIN_UPPER_LEFT);

@@ -85,6 +85,10 @@
       <Project>{d3dd25b5-d27d-4281-8a27-d0d854f53fa8}</Project>
       <Name>Lamby2D.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lamby2D.C\Lamby2D.C.vcxproj">
+      <Project>{79b484c7-d1ee-411c-bea0-3f43889402e1}</Project>
+      <Name>Lamby2D.FreeType.Native</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lamby2D.Drawing\Lamby2D.Drawing.csproj">
       <Project>{78360a3f-45c6-4490-b179-5e5b891e7816}</Project>
       <Name>Lamby2D.Drawing</Name>

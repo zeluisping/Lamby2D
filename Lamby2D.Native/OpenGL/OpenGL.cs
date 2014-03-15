@@ -198,7 +198,7 @@ namespace Lamby2D.Native.OpenGL
         [DllImport(dll)]
         public static extern void glTexParameteri(uint target, uint pname, int param);
         [DllImport(dll)]
-        public static extern void glTexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, IntPtr pixels);
+        public static extern void glTexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, byte[] pixels);
         [DllImport(dll)]
         public static extern void glEnableClientState(uint cap);
         [DllImport(dll)]

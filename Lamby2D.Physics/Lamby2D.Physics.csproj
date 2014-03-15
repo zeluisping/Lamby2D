@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AABB.cs" />
+    <Compile Include="CollisionBox.cs" />
     <Compile Include="CollisionCircle.cs" />
     <Compile Include="CollisionPrimitive.cs" />
+    <Compile Include="IDynamicPhysicsObject.cs" />
     <Compile Include="IPhysicsObject.cs" />
+    <Compile Include="IStaticPhysicsObject.cs" />
     <Compile Include="GamePhysics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

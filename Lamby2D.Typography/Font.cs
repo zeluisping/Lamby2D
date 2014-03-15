@@ -69,7 +69,7 @@ namespace Lamby2D.Typography
             OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, texbase[character]);
             OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, (int) OpenGL.GL_LINEAR);
             OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, (int) OpenGL.GL_LINEAR);
-            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, (int) OpenGL.GL_RGBA, width, height, 0, OpenGL.GL_LUMINANCE_ALPHA, OpenGL.GL_UNSIGNED_BYTE, Marshal.UnsafeAddrOfPinnedArrayElement(expanded_data, 0));
+            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, (int) OpenGL.GL_RGBA, width, height, 0, OpenGL.GL_LUMINANCE_ALPHA, OpenGL.GL_UNSIGNED_BYTE, expanded_data);
 
             OpenGL.glNewList(listbase + character, OpenGL.GL_COMPILE);
             {

@@ -11,7 +11,7 @@ using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class ImageGameObject : GameObject, IDrawable, IMouseAware, ITickable, IPhysicsObject
+    class ImageGameObject : GameObject, IDrawable, IMouseAware, ITickable, IStaticPhysicsObject
     {
         // Properties
         public Texture2D Texture { get; set; }

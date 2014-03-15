@@ -153,8 +153,8 @@ namespace Lamby2D
             }
 
             // Physics
-            if (obj is IPhysicsObject) {
-                this.Physics.PhysicsObjects.Add(obj as IPhysicsObject);
+            if (obj is IStaticPhysicsObject) {
+                this.Physics.PhysicsObjects.Add(obj as IStaticPhysicsObject);
             }
         }
         internal void UnRegisterGameObject(GameObject obj)
@@ -176,8 +176,8 @@ namespace Lamby2D
             }
 
             // Physics
-            if (obj is IPhysicsObject) {
-                this.Physics.PhysicsObjects.Remove(obj as IPhysicsObject);
+            if (obj is IStaticPhysicsObject) {
+                this.Physics.PhysicsObjects.Remove(obj as IStaticPhysicsObject);
             }
         }
 

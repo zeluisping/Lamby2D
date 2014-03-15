@@ -14,11 +14,7 @@ namespace Lamby2D.Physics
         /// </summary>
         CollisionPrimitive Collider { get; }
         /// <summary>
-        /// Gets/sets the position of the primitive.
-        /// </summary>
-        Vector2 Position { get; set; }
-        /// <summary>
-        /// Gets the center of the primitive.
+        /// Gets the center of the object.
         /// </summary>
         Vector2 Center { get; }
         /// <summary>

@@ -11,7 +11,7 @@ using Lamby2D.Physics;
 
 namespace DemoLamby2D
 {
-    class Cursor : GameObject, IDrawable, IPhysicsObject, ITickable
+    class Cursor : GameObject, IDrawable, IStaticPhysicsObject, ITickable
     {
         // Static variables
         static readonly Texture2D CursorTexture = Game.Current.Graphics.CreateTexture("cursor.png");
